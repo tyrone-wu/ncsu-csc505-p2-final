@@ -1,0 +1,48 @@
+/**
+ * @file Graph.cpp
+ * @author Andrew Sauerbrei
+ *         AJ Bulthuis
+ *         Tyrone Wu
+ * @brief The graph data structure.
+ * 
+ */
+
+#include "../include/Graph.h"
+
+/**
+ * @brief Adds a vertex to the graph with the id, x, and y value.
+ * 
+ * @param id the id of the vertex
+ * @param x the x coordinate
+ * @param y the y coordinate
+ */
+Vertex* Graph::addVertex(unsigned int id, int x, int y) {
+    if (this->vertices[id - 1] == nullptr) {
+        this->vertices[id - 1] = new Vertex(id, x, y);
+    }
+    return this->vertices[id - 1];
+}
+
+/**
+ * @brief Adds a vertex to the graph with the id.
+ * 
+ * @param id the id of the vertex
+ */
+Vertex* Graph::addVertex(unsigned int id) {
+    return Graph::addVertex(id, 0, 0);
+}
+
+/**
+ * @brief Adds an edge to the graph as well as the incident edge to the node
+ * 
+ * @param source the source vertex
+ * @param destination the destination vertex
+ * @param weight the edge weight
+ */
+void Graph::addEdge(unsigned int source, unsigned int destination, int weight) {
+    Vertex* srcVertex = Graph::addVertex(source);
+    Vertex* dstVertex = Graph::addVertex(destination);
+
+    srcVertex->addEdge(source, destination, weight);
+    dstVertex->addEdge(destination, source, weight);
+}
