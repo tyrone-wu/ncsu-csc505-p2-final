@@ -46,6 +46,13 @@ public:
      * @param weight the edge weight
      */
     void addEdge(unsigned int source, unsigned int destination, int weight);
+
+    /**
+     * @brief Adds an incident edge to the vertex.
+     * 
+     * @param edge the edge to add
+     */
+    void addEdge(Edge* edge);
 };
 
 #endif // VERTEX_H

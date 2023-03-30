@@ -30,7 +30,7 @@ public:
      */
     Graph(unsigned int numVerticies, unsigned int numEdges) {
         this->vertices = std::vector<Vertex*>(numVerticies, nullptr);
-        this->vertices = std::vector<Vertex*>(numEdges, nullptr);
+        this->edges.reserve(numEdges * 2);
     }
 
     /**

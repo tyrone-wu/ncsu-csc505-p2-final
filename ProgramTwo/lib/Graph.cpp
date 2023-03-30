@@ -43,6 +43,13 @@ void Graph::addEdge(unsigned int source, unsigned int destination, int weight) {
     Vertex* srcVertex = Graph::addVertex(source);
     Vertex* dstVertex = Graph::addVertex(destination);
 
-    srcVertex->addEdge(source, destination, weight);
-    dstVertex->addEdge(destination, source, weight);
+    Edge* to = new Edge(source, destination, weight);
+    srcVertex->addEdge(to);
+    // srcVertex->addEdge(source, destination, weight);
+    this->edges.push_back(to);
+
+    Edge* from = new Edge(destination, source, weight);
+    dstVertex->addEdge(from);
+    // dstVertex->addEdge(destination, source, weight);
+    this->edges.push_back(from);
 }

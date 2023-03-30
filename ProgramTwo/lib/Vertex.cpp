@@ -19,3 +19,12 @@
 void Vertex::addEdge(unsigned int source, unsigned int destination, int weight) {
     this->incidentEdges.push_back(new Edge(source, destination, weight));
 }
+
+/**
+ * @brief Adds an incident edge to the vertex.
+ * 
+ * @param edge the edge to add
+ */
+void Vertex::addEdge(Edge* edge) {
+    this->incidentEdges.push_back(edge);
+}
