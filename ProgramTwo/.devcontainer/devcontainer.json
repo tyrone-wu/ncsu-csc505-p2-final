@@ -1,5 +1,5 @@
 {
-    "name": "p1-devcontainer",
+    "name": "p2-devcontainer",
     "image": "mcr.microsoft.com/devcontainers/cpp",
     // "image": "mcr.microsoft.com/devcontainers/anaconda",
     // "forwardPorts": [8888],
