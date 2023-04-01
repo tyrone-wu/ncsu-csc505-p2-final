@@ -7,6 +7,7 @@
  * 
  */
 
+#include <iostream>
 #include "../include/Graph.h"
 
 /**
@@ -52,4 +53,24 @@ void Graph::addEdge(unsigned int source, unsigned int destination, int weight) {
     dstVertex->addEdge(from);
     // dstVertex->addEdge(destination, source, weight);
     this->edges.push_back(from);
+}
+
+/**
+ * @brief Prints the graph for debugging purposes.
+ * 
+ */
+void Graph::printGraph() {
+    // Prints the vertices
+    for (Vertex* v : this->vertices) {
+        std::cout << "v - " << v->id << ", x: " << v->x << ", y: " << v->y << std::endl;
+        for (Edge* e : v->incidentEdges) {
+            std::cout << "src: " << e->source  << ", dst: " << e->destination << ", w: " << e->weight << std::endl;
+        }
+        std::cout<< "---" << std::endl;
+    }
+
+    // Prints the edges
+    for (Edge* e : this->edges) {
+        std::cout << "e - src: " << e->source << ", dst: " << e->destination << ", w: " << e->weight << std::endl;
+    }
 }

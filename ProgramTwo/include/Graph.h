@@ -59,6 +59,12 @@ public:
      * @param weight the edge weight
      */
     void addEdge(unsigned int source, unsigned int destination, int weight);
+
+    /**
+     * @brief Prints the graph for debugging purposes.
+     * 
+     */
+    void printGraph();
 };
 
 #endif // GRAPH_H
