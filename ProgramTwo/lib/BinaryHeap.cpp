@@ -8,30 +8,16 @@
  */
 
 #include <iostream>
-using namespace std;
-#include "../include/BinaryHeap.h"
 #include <vector>
-
-std::vector<Edge> heapList;
-
-/**
- * @brief Construct an empty graph with the given capacities.
- * 
- * @param head The initial edge to be added to the binary heap
- */
-BinaryHeap::BinaryHeap(Edge head) {\
-    //The first 1 is a dummy value to make child, parent, and leaf calculations easier
-    heapList.push_back(head);
-    heapList.push_back(head);
-}
+#include "../include/BinaryHeap.h"
 
 /** 
  * @brief Finds the left child and returns its index
  * 
  * @param i The index of the parent's whose left child you're trying to find
 */
-int BinaryHeap::lChild(int i) {
-    return 2*i;
+unsigned int BinaryHeap::lChild(unsigned int i) {
+    return 2 * i + 1;
 }
 
 /** 
@@ -39,8 +25,8 @@ int BinaryHeap::lChild(int i) {
  * 
  * @param i The index of the parent's whose right child you're trying to find
 */
-int BinaryHeap::rChild(int i) {
-    return 2*i + 1;
+unsigned int BinaryHeap::rChild(unsigned int i) {
+    return 2 * i + 2;
 }
 
 /** 
@@ -48,8 +34,8 @@ int BinaryHeap::rChild(int i) {
  * 
  * @param i The index of the of the current node
 */
-int BinaryHeap::parent(int i) {
-    return i/2;
+unsigned int BinaryHeap::parent(unsigned int i) {
+    return (i - 1) / 2;
 }
 
 /** 
@@ -57,55 +43,109 @@ int BinaryHeap::parent(int i) {
  * 
  * @param i The index of the of the current node
 */
-bool BinaryHeap::isLeaf(int i){
-    return (i*2 > (heapList.size()-1));
+bool BinaryHeap::isLeaf(unsigned int i) {
+    return i >= (heapList.size() / 2);
 }
 
 /**
  * @brief Swaps a node with its smallest child and continues the operation with the child of the current node if the child is smaller than the parent.
  * 
  * @param i The index of the node you are trying to hepify
+ * @param size the size of the heap to operate on
  */
-void BinaryHeap::heapify(int i){
-    if(!isLeaf(i)){
-        int mChild = lChild(i);
-        //We need to check if there is a right child
-        if(2*i + 1 <= heapList.size()-1){
-            if(heapList[rChild(i)].weight < heapList[mChild].weight)
-                mChild = rChild(i);
-        }  
-        if(heapList[mChild].weight < heapList[i].weight){
-            Edge temp = heapList[i];
-            heapList[i] = heapList[mChild];
-            heapList[mChild] = temp;
+void BinaryHeap::minHeapify(unsigned int i, unsigned int size) {
+    // Track min index to swap
+    unsigned int min = i;
 
-            heapify(mChild);
-        }
+    // Set min to left if left is smaller
+    unsigned int left = this->lChild(i);
+    if ((left < size) && this->heapList.at(left)->weight < this->heapList.at(min)->weight) {
+        min = left;
+    }
+
+    // Set min to right if right is smaller
+    unsigned int right = this->rChild(i);
+    if ((right < size) && (this->heapList.at(right)->weight < this->heapList.at(min)->weight)) {
+        min = right;
+    }
+
+    // Recursively swap until no swap is needed
+    if (i != min) {
+        // Swap the current node with the min child
+        std::swap(this->heapList[i], this->heapList[min]);
+        minHeapify(min, size);
     }
 }
 
 /**
- * @brief Runs Heapify on all nodes in the heap from bottom to top, right to left
+ * @brief Swaps a node with its largest child and continues the operation with the child of the current node if the child is smaller than the parent.
+ * 
+ * @param i The index of the node you are trying to hepify
+ * @param size the size of the heap to operate on
  */
-void BinaryHeap::buildHeap(){
-    for(int i = heapList.size(); i > 0; i--){
-        heapify(i);
+void BinaryHeap::maxHeapify(unsigned int i, unsigned int size) {
+    // Track min index to swap
+    unsigned int max = i;
+
+    // Set min to left if left is smaller
+    unsigned int left = this->lChild(i);
+    if ((left < size) && this->heapList.at(left)->weight > this->heapList.at(max)->weight) {
+        max = left;
+    }
+
+    // Set min to right if right is smaller
+    unsigned int right = this->rChild(i);
+    if ((right < size) && (this->heapList.at(right)->weight > this->heapList.at(max)->weight)) {
+        max = right;
+    }
+
+    // Recursively swap until no swap is needed
+    if (i != max) {
+        // Swap the current node with the min child
+        std::swap(this->heapList[i], this->heapList[max]);
+        minHeapify(max, size);
+    }
+}
+
+/**
+ * @brief Builds a min heap given the list of edges.
+ * 
+ */
+void BinaryHeap::buildMinHeap() {
+    // Min Heapify edges
+    for (int i = this->heapList.size() / 2 - 1; i >= 0; i--) {
+        this->minHeapify(i, this->heapList.size());
+    }
+}
+
+/**
+ * @brief Builds a max heap given the list of edges.
+ * 
+ */
+void BinaryHeap::buildMaxHeap() {
+    // Max Heapify edges
+    for (int i = this->heapList.size() / 2 - 1; i >= 0; i--) {
+        this->maxHeapify(i, this->heapList.size());
     }
 }
 
 /**
  * @brief Removes the root of the heap, sorts the list, and returns the Edge
  * 
- * @return The root of the heap
 */
-Edge BinaryHeap::heapsort(){
-    buildHeap();
-    Edge r = heapList[1];
-    Edge newRoot = heapList.back();
-    heapList.pop_back();
-    heapList[1] = newRoot;
-    heapify(1);
-    return r;
+void BinaryHeap::heapsort() {
+    // Build max heap so it results in ascending order
+    this->buildMaxHeap();
+
+    // Recursively call heapsort on the root after swapping with the last unsorted node
+    for (int i = this->heapList.size() - 1; i > 0; i--) {
+        // Swap last unsorted node with the root node
+        std::swap(this->heapList[0], this->heapList[i]);
+        this->maxHeapify(0, i);
+    }
+
+    // Reverse the list since min heap produces a descending ordered list; only needed if using a min heap
+    // std::reverse(this->heapList.begin(), this->heapList.end());
 }
 
 /**
@@ -113,7 +153,7 @@ Edge BinaryHeap::heapsort(){
  * 
  * @param e The edge to add
 */
-void BinaryHeap::addEdge(Edge e){
+void BinaryHeap::addEdge(Edge* e){
     heapList.push_back(e);
 }
 
@@ -121,7 +161,8 @@ void BinaryHeap::addEdge(Edge e){
  * @brief Prints out the heap
 */
 void BinaryHeap::printHeap(){
-    for(int i = 1; i < heapList.size(); i++){
-        cout << heapList[i].weight << ", ";
+    for(int i = 0; i < heapList.size(); i++){
+        std::cout << heapList.at(i)->weight << ", ";
     }
+    std::cout << std::endl;
 }

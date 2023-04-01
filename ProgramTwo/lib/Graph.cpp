@@ -66,7 +66,7 @@ void Graph::printGraph() {
         for (Edge* e : v->incidentEdges) {
             std::cout << "src: " << e->source  << ", dst: " << e->destination << ", w: " << e->weight << std::endl;
         }
-        std::cout<< "---" << std::endl;
+        std::cout << std::endl;
     }
 
     // Prints the edges

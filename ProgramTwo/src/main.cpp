@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include "../include/Graph.h"
+#include "../include/BinaryHeap.h"
 
 using namespace std;
 
@@ -102,7 +103,11 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    graph->printGraph();
+    BinaryHeap* heap = new BinaryHeap(graph->edges);
+    heap->printHeap();
+
+    heap->heapsort();
+    heap->printHeap();
 
     return 0;
 }
