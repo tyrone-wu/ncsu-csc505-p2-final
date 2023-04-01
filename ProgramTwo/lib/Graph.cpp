@@ -30,7 +30,7 @@ Vertex* Graph::addVertex(unsigned int id, int x, int y) {
  * @param id the id of the vertex
  */
 Vertex* Graph::addVertex(unsigned int id) {
-    return Graph::addVertex(id, 0, 0);
+    return this->addVertex(id, 0, 0);
 }
 
 /**
@@ -41,8 +41,8 @@ Vertex* Graph::addVertex(unsigned int id) {
  * @param weight the edge weight
  */
 void Graph::addEdge(unsigned int source, unsigned int destination, int weight) {
-    Vertex* srcVertex = Graph::addVertex(source);
-    Vertex* dstVertex = Graph::addVertex(destination);
+    Vertex* srcVertex = this->addVertex(source);
+    Vertex* dstVertex = this->addVertex(destination);
 
     Edge* to = new Edge(source, destination, weight);
     srcVertex->addEdge(to);
