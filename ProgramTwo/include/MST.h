@@ -19,24 +19,9 @@
 /**
  * @brief Computes the Minimum Spanning Tree on the given graph
  * 
- * @param capacity 
- * @return std::vector<Edge*> 
+ * @param graph the graph to compute the MST on
+ * @return std::vector<Edge*> the edges of the MST
  */
-std::vector<Edge*> mst(Graph* graph);
-
-/**
- * @brief Prints the edges of the minimum spanning tree
- * 
- * @param edges the edges of the MST
- */
-void printMST(Graph* graph, std::vector<Edge*> edges) {
-    // g line
-    std::cout << "g " << graph->vertices.size() << " " << graph->edges.size() << std::endl;
-
-    // e lines
-    for (auto e : edges) {
-        e->printEdge();
-    }
-}
+std::vector<Edge*> computeMST(Graph* graph);
 
 #endif // MST_H

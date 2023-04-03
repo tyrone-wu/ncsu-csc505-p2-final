@@ -20,9 +20,13 @@ COMPILE=$(CPP) $(CPPFLAGS)
 # 	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/insertion.o -o $(BIN_DIR)/insertion
 
 # Build MST executable
-mst: $(DEP)
+prim: $(DEP) prim.o
 	@mkdir -p $(BIN_DIR)
-	$(COMPILE) $(DEP_ACT) -o $(BIN_DIR)/main
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/prim.o -o $(BIN_DIR)/prim
+
+kruskal: $(DEP) kruskal.o
+	@mkdir -p $(BIN_DIR)
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/kruskal.o -o $(BIN_DIR)/kruskal
 
 # Compile lib
 %.o: $(LIB_DIR)/%.cpp $(HEADERS)

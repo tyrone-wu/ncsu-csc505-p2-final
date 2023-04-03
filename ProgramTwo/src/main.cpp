@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include "../include/Graph.h"
+#include "../include/Edge.h"
 #include "../include/BinaryHeap.h"
 #include "../include/MST.h"
 
@@ -76,6 +77,21 @@ void parseEdge(Graph* graph, string &line) {
 }
 
 /**
+ * @brief Prints the edges of the minimum spanning tree
+ * 
+ * @param edges the edges of the MST
+ */
+void printMST(Graph* graph, std::vector<Edge*> edges) {
+    // g line
+    cout << "g " << graph->vertices.size() << " " << graph->edges.size() << endl;
+
+    // e lines
+    for (auto e : edges) {
+        e->printEdge();
+    }
+}
+
+/**
  * @brief The main driver of the program.
  * 
  * @param argc the number of arguments
@@ -104,20 +120,21 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    graph->printGraph();
+    // graph->printGraph();
 
-    BinaryHeap* heap = new BinaryHeap(graph->edges);
-    heap->printHeap();
+    // BinaryHeap* heap = new BinaryHeap(graph->edges);
+    // heap->printHeap();
 
-    BinaryHeap* newHeap = new BinaryHeap(heap->heapList.size());
-    std::reverse(heap->heapList.begin(), heap->heapList.end());
-    heap->printHeap();
-    for (auto e : heap->heapList) {
-        newHeap->addEdge(e);
-        newHeap->printHeap();
-    }
+    // BinaryHeap* newHeap = new BinaryHeap(heap->heapList.size());
+    // std::reverse(heap->heapList.begin(), heap->heapList.end());
+    // heap->printHeap();
+    // for (auto e : heap->heapList) {
+    //     newHeap->addEdge(e);
+    //     newHeap->printHeap();
+    // }
 
-    printMST(graph, graph->edges);
+    vector<Edge*> mst = computeMST(graph);
+    printMST(graph, mst);
 
     return 0;
 }
