@@ -108,8 +108,13 @@ int main(int argc, char* argv[]) {
     BinaryHeap* heap = new BinaryHeap(graph->edges);
     heap->printHeap();
 
-    // heap->heapsort();
-    // heap->printHeap();
+    BinaryHeap* newHeap = new BinaryHeap(heap->heapList.size());
+    std::reverse(heap->heapList.begin(), heap->heapList.end());
+    heap->printHeap();
+    for (auto e : heap->heapList) {
+        newHeap->addEdge(e);
+        newHeap->printHeap();
+    }
 
     return 0;
 }
