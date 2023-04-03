@@ -10,6 +10,8 @@
 #ifndef EDGE_H
 #define EDGE_H
 
+#include <iostream>
+
 class Edge {
 public:
 
@@ -31,6 +33,14 @@ public:
         this->source = source;
         this->destination = destination;
         this->weight = weight;
+    }
+
+    /**
+     * @brief Prints the edge in the format: e source target weight
+     * 
+     */
+    void printEdge() {
+        std::cout << "e " << this->source << " " << this->destination << " " << this->weight << std::endl;
     }
 };
 

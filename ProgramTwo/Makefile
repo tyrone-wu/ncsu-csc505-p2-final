@@ -10,7 +10,7 @@ DAT_DIR=./data
 
 DEP=main.o Vertex.o Graph.o BinaryHeap.o
 DEP_ACT=$(BLD_DIR)/main.o $(BLD_DIR)/Vertex.o $(BLD_DIR)/Graph.o $(BLD_DIR)/BinaryHeap.o
-HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Graph.h $(INC_DIR)/BinaryHeap.h
+HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Graph.h $(INC_DIR)/BinaryHeap.h $(INC_DIR)/MST.h
 
 COMPILE=$(CPP) $(CPPFLAGS)
 

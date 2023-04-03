@@ -12,6 +12,7 @@
 #include <sstream>
 #include "../include/Graph.h"
 #include "../include/BinaryHeap.h"
+#include "../include/MST.h"
 
 using namespace std;
 
@@ -115,6 +116,8 @@ int main(int argc, char* argv[]) {
         newHeap->addEdge(e);
         newHeap->printHeap();
     }
+
+    printMST(graph, graph->edges);
 
     return 0;
 }
