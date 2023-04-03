@@ -103,11 +103,13 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    graph->printGraph();
+
     BinaryHeap* heap = new BinaryHeap(graph->edges);
     heap->printHeap();
 
-    heap->heapsort();
-    heap->printHeap();
+    // heap->heapsort();
+    // heap->printHeap();
 
     return 0;
 }
