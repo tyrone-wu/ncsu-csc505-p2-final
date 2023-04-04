@@ -25,14 +25,15 @@ struct DisjointSet
     DisjointSet(std::vector<Vertex*> vertices)
     {
         this->n = vertices.size();
-        parent = new int[n + 1];
-        rank = new int[n + 1];
+        std::cout << n << std::endl;
+        parent = new int[n];
+        rank = new int[n];
 
-        for (int i = 0; i <= n; i++)
+        for (int i = 0; i < n; i++)
         {
             rank[i] = 0;
             parent[i] = i;
-            v = vertices.at(i);
+            // v = vertices.at(i);
         }
     }
 
@@ -87,7 +88,10 @@ std::vector<Edge*> computeMST(Graph* graph) {
     // Put all edges in the queue
     BinaryHeap Q = BinaryHeap(graph->edges);
 
-    while(mst.size() < graph->edges.size() - 1)
+    // Counter for the while loop
+    int counter = 0;
+
+    while(Q.heapList.size() != 0)
     {
         Edge* e = Q.removeMin();
 
@@ -99,6 +103,7 @@ std::vector<Edge*> computeMST(Graph* graph) {
             mst.push_back(e);
             ds.mergeSets(u, v);
         }
+        counter++;
     }
 
     return mst;
