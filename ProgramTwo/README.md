@@ -77,3 +77,18 @@ $ ./run_mst.sh prim < ./data/input_01.gph 1> /dev/null
 # runtime     SECONDS
 # comparisons NUMBER_OF_COMPARISONS
 ```
+
+### Run test cases
+
+```sh
+# example: make test-prim
+$ make [test-prim|test-kruskal]
+
+# output:
+# ...
+# 🧪 Running prim MST with c5.gph:
+# Test case c5.gph passed. ✅ :)
+
+# 🧪 Running prim MST with bt7.gph:
+# Test case bt7.gph passed. ✅ :)
+```
