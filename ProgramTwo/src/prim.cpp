@@ -44,7 +44,7 @@ std::vector<Edge*> computeMST(Graph* graph) {
         } else if (!graph->vertices.at(minimumEdge->destination)->marked){
             minimumEdgeDest = graph->vertices.at(minimumEdge->destination);
         }
-        // If the edge points to a vertex no in the mst...
+        // If the edge points to a vertex not in the mst...
         if(minimumEdgeDest != nullptr){
             // Add the edge to the mst
             mst.push_back(minimumEdge);
