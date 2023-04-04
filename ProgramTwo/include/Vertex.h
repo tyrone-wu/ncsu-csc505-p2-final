@@ -24,6 +24,8 @@ public:
     int y;
     // List of incident edges
     std::vector<Edge*> incidentEdges;
+    // Used to mark a vertex
+    bool marked = false;
 
     /**
      * @brief Construct a new Vertex object with the given data.
