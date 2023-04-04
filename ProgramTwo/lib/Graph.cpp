@@ -16,21 +16,21 @@ extern unsigned long long compares;
 /**
  * @brief Adds a vertex to the graph with the id, x, and y value.
  * 
- * @param id the id of the vertex
+ * @param id the inex of the vertex
  * @param x the x coordinate
  * @param y the y coordinate
  */
 Vertex* Graph::addVertex(unsigned int id, int x, int y) {
-    if (this->vertices[id - 1] == nullptr) {
-        this->vertices[id - 1] = new Vertex(id, x, y);
+    if (this->vertices[id] == nullptr) {
+        this->vertices[id] = new Vertex(id, x, y);
     }
-    return this->vertices[id - 1];
+    return this->vertices[id];
 }
 
 /**
  * @brief Adds a vertex to the graph with the id.
  * 
- * @param id the id of the vertex
+ * @param id the index of the vertex
  */
 Vertex* Graph::addVertex(unsigned int id) {
     return this->addVertex(id, 0, 0);

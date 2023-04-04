@@ -40,7 +40,7 @@ public:
      * 
      */
     void printEdge() {
-        std::cout << "e " << this->source << " " << this->destination << " " << this->weight << std::endl;
+        std::cout << "e " << (this->source + 1) << " " << (this->destination + 1) << " " << this->weight << std::endl;
     }
 };
 

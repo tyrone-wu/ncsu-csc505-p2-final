@@ -60,7 +60,7 @@ void parseNode(Graph* graph, string &line) {
     vector<string> tokens;
     parseTokens(line, tokens);
 
-    graph->addVertex(stoi(tokens[1]), stoi(tokens[2]), stoi(tokens[3]));
+    graph->addVertex(stoi(tokens[1]) - 1, stoi(tokens[2]), stoi(tokens[3]));
 }
 
 /**
@@ -74,7 +74,7 @@ void parseEdge(Graph* graph, string &line) {
     vector<string> tokens;
     parseTokens(line, tokens);
 
-    graph->addEdge(stoi(tokens[1]), stoi(tokens[2]), stoi(tokens[3]));
+    graph->addEdge(stoi(tokens[1]) - 1, stoi(tokens[2]) - 1, stoi(tokens[3]));
 }
 
 /**
@@ -84,7 +84,7 @@ void parseEdge(Graph* graph, string &line) {
  */
 void printMST(Graph* graph, std::vector<Edge*> edges) {
     // g line
-    cout << "g " << graph->vertices.size() << " " << graph->edges.size() << endl;
+    cout << "g " << graph->vertices.size() << " " << edges.size() << endl;
 
     // e lines
     for (auto e : edges) {
