@@ -22,7 +22,9 @@
  */
 std::vector<Edge*> computeMST(Graph* graph) {
     // Allocate memory for number of edges in the MST
+
     std::vector<Edge*> mst;
+
     mst.reserve(graph->vertices.size() - 1);
 
     // We pick a start vertex
@@ -37,25 +39,25 @@ std::vector<Edge*> computeMST(Graph* graph) {
         Edge* minimumEdge = Q.removeMin();
         // Ensure that the edge points to a vertex not in the mst
         Vertex* minimumEdgeDest = nullptr;
-        if(!graph->vertices.at(minimumEdge->source)->marked){
-            minimumEdgeDest = graph->vertices.at(minimumEdge->source);
-        } else if (!graph->vertices.at(minimumEdge->destination)->marked){
-            minimumEdgeDest = graph->vertices.at(minimumEdge->destination);
+        if(!graph->vertices.at(minimumEdge->source-1)->marked){
+            minimumEdgeDest = graph->vertices.at(minimumEdge->source-1);
+        } else if (!graph->vertices.at(minimumEdge->destination-1)->marked){
+            minimumEdgeDest = graph->vertices.at(minimumEdge->destination-1);
         }
         // If the edge points to a vertex no in the mst...
         if(minimumEdgeDest != nullptr){
             // Add the edge to the mst
             mst.push_back(minimumEdge);
             // Mark the vertex as in the mst
-            graph->vertices.at(minimumEdgeDest->id)->marked = true;
+            graph->vertices.at(minimumEdgeDest->id-1)->marked = true;
             // Find the incident edges to this new vertex
             std::vector<Edge*> newEdges = minimumEdgeDest->incidentEdges;
             // For all of these incident edges...
-            for(int i = 0; i <= newEdges.size(); i++){
+            for(int i = 0; i < newEdges.size(); i++){
                 // Find the end point of the edge that is not the recently marked vertex
-                Vertex* newEdgeDest = graph->vertices.at(newEdges.at(i)->source);
+                Vertex* newEdgeDest = graph->vertices.at(newEdges.at(i)->source-1);
                 if(newEdgeDest->id == minimumEdgeDest->id)
-                    newEdgeDest = graph->vertices.at(newEdges.at(i)->destination);
+                    newEdgeDest = graph->vertices.at(newEdges.at(i)->destination-1);
                 // If this vertex is not marked, add the edge to Q
                 if (!newEdgeDest->marked)
                     Q.addEdge(newEdges.at(i));
