@@ -14,6 +14,7 @@
 #include "../include/Edge.h"
 #include "../include/BinaryHeap.h"
 #include "../include/MST.h"
+#include "../include/Time.h"
 
 using namespace std;
 
@@ -92,6 +93,20 @@ void printMST(Graph* graph, std::vector<Edge*> edges) {
 }
 
 /**
+ * @brief Calculates the total weight of the MST
+ * 
+ * @param edges the edges of the MST
+ * @return long the total weight of the MST
+ */
+long totalWeight(vector<Edge*> edges) {
+    long sum = 0;
+    for (auto e : edges) {
+        sum += e->weight;
+    }
+    return sum;
+}
+
+/**
  * @brief The main driver of the program.
  * 
  * @param argc the number of arguments
@@ -120,21 +135,23 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // graph->printGraph();
+    // Initialize comparison counter
+    compares = 0;
+    // Perform benchmark on the MST
+    Timer timer;
 
-    // BinaryHeap* heap = new BinaryHeap(graph->edges);
-    // heap->printHeap();
-
-    // BinaryHeap* newHeap = new BinaryHeap(heap->heapList.size());
-    // std::reverse(heap->heapList.begin(), heap->heapList.end());
-    // heap->printHeap();
-    // for (auto e : heap->heapList) {
-    //     newHeap->addEdge(e);
-    //     newHeap->printHeap();
-    // }
-
+    // Benchmark mst
+    timer.start();
     vector<Edge*> mst = computeMST(graph);
+    timer.stop();
+
+    // Print edges of mst to standard output
     printMST(graph, mst);
+
+    // Print the benchmark to standard error
+    cerr << "weight      " << totalWeight(mst) << endl;
+    cerr << "runtime     " << timer.getTotalTime() << endl;
+    cerr << "comparisons " << compares << endl;
 
     return 0;
 }

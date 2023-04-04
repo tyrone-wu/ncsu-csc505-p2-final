@@ -8,23 +8,18 @@ INC_DIR=./include
 LIB_DIR=./lib
 DAT_DIR=./data
 
-DEP=main.o Vertex.o Graph.o BinaryHeap.o
-DEP_ACT=$(BLD_DIR)/main.o $(BLD_DIR)/Vertex.o $(BLD_DIR)/Graph.o $(BLD_DIR)/BinaryHeap.o
-HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Graph.h $(INC_DIR)/BinaryHeap.h $(INC_DIR)/MST.h
+DEP=main.o Vertex.o Graph.o BinaryHeap.o Time.o
+DEP_ACT=$(BLD_DIR)/main.o $(BLD_DIR)/Vertex.o $(BLD_DIR)/Graph.o $(BLD_DIR)/BinaryHeap.o $(BLD_DIR)/Time.o
+HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Graph.h $(INC_DIR)/BinaryHeap.h $(INC_DIR)/MST.h $(INC_DIR)/Time.h
 
 COMPILE=$(CPP) $(CPPFLAGS)
 
-# # Build MST executable
-# insertion: $(DEP) insertion.o prep-script
-# 	@mkdir -p $(BIN_DIR)
-# 	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/insertion.o -o $(BIN_DIR)/insertion
-
 # Build MST executable
-prim: $(DEP) prim.o
+prim: $(DEP) prim.o prep-script
 	@mkdir -p $(BIN_DIR)
 	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/prim.o -o $(BIN_DIR)/prim
 
-kruskal: $(DEP) kruskal.o
+kruskal: $(DEP) kruskal.o prep-script
 	@mkdir -p $(BIN_DIR)
 	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/kruskal.o -o $(BIN_DIR)/kruskal
 
@@ -38,16 +33,16 @@ kruskal: $(DEP) kruskal.o
 	@mkdir -p $(BLD_DIR)
 	$(COMPILE) -c $< -o $(BLD_DIR)/$@
 
-# # Test insertion
-# test-insertion: prep-script
-# 	@sed -i -e 's/\r$$//' ./scripts/test_sort.sh
-# 	@chmod +x ./scripts/test_sort.sh
-# 	./scripts/test_sort.sh insertion
+# # Test prim
+# test-prim: prep-script
+# 	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
+# 	@chmod +x ./scripts/test_mst.sh
+# 	./scripts/test_mst.sh prim
 
-# # Removes carriage return and makes script executable
-# prep-script:
-# 	@sed -i -e 's/\r$$//' ./run_sort.sh
-# 	@chmod +x ./run_sort.sh
+# Removes carriage return and makes script executable
+prep-script:
+	@sed -i -e 's/\r$$//' ./run_mst.sh
+	@chmod +x ./run_mst.sh
 
 # Clean build
 clean:
