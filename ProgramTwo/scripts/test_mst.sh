@@ -18,10 +18,10 @@ do
 
     ./bin/"$1" < $DATA_DIR/"$input".gph 1> $TEST_DIR/"$input"-actual.out 2> $TEST_DIR/"$input"-actual.err
 
-    sort $TEST_DIR/"$input"-actual.out | grep "^[ge]" > $TEST_DIR/tmp1
-    sort $DATA_DIR/"$input".out | grep "^[ge]" > $TEST_DIR/tmp2
+    sort $TEST_DIR/"$input"-actual.out | grep "^[ge]" > $TEST_DIR/"$input"-actual.txt
+    sort $DATA_DIR/"$input".out | grep "^[ge]" > $TEST_DIR/"$input"-expected.txt
 
-    if ! diff -q --strip-trailing-cr $TEST_DIR/tmp1 $TEST_DIR/tmp2 &> /dev/null
+    if ! diff -q --strip-trailing-cr $TEST_DIR/"$input"-actual.txt $TEST_DIR/"$input"-expected.txt &> /dev/null
     then
         echo "Test case $input.gph failed. ❌ :("
         exit 1
