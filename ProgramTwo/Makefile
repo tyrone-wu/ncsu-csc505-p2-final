@@ -33,11 +33,17 @@ kruskal: $(DEP) kruskal.o prep-script
 	@mkdir -p $(BLD_DIR)
 	$(COMPILE) -c $< -o $(BLD_DIR)/$@
 
-# # Test prim
-# test-prim: prep-script
-# 	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
-# 	@chmod +x ./scripts/test_mst.sh
-# 	./scripts/test_mst.sh prim
+# Test prim
+test-prim: prep-script
+	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
+	@chmod +x ./scripts/test_mst.sh
+	./scripts/test_mst.sh prim
+
+# Test kruskal
+test-kruskal: prep-script
+	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
+	@chmod +x ./scripts/test_mst.sh
+	./scripts/test_mst.sh kruskal
 
 # Removes carriage return and makes script executable
 prep-script:
