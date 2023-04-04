@@ -2,7 +2,7 @@
 
 TEST_DIR=./data/test
 DATA_DIR=./data/ProgramTwo-Student-Files
-DATA=( c5 bt7 )
+DATA=( c5 bt7 dt_00005_000000_0100_01 gm_00010_000020_0500_01 gw_00010_000020_1000_01 )
 
 if [ ! -e "./bin/$1" ]
 then
