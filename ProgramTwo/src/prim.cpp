@@ -12,25 +12,24 @@
 #include "../include/Graph.h"
 #include "../include/Edge.h"
 #include "../include/Vertex.h"
-#include "../include/BinaryHeap.h"
+#include "../include/DHeap.h"
 
 /**
  * @brief Computes the Minimum Spanning Tree using Prim's algorithm
  * 
  * @param graph the graph to compute the MST on
+ * @param k the node size to set; d = 2^k
  * @return std::vector<Edge*> the edges of the MST
  */
-std::vector<Edge*> computeMST(Graph* graph) {
+std::vector<Edge*> computeMST(Graph* graph, unsigned int k) {
     // Allocate memory for number of edges in the MST
-
     std::vector<Edge*> mst;
-
     mst.reserve(graph->vertices.size() - 1);
 
     // We pick a start vertex
     Vertex* startV = graph->vertices.at(0);
     // Look at the edges incident to the start vertex and put them in the min heap priority queue: Q
-    BinaryHeap Q = BinaryHeap(startV->incidentEdges);
+    DHeap Q = DHeap(startV->incidentEdges, k);
     // Mark the start vertex as in the mst
     graph->vertices.at(0)->marked = true;
     // While there are still edges in Q...

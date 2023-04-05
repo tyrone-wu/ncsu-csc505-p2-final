@@ -8,9 +8,9 @@ INC_DIR=./include
 LIB_DIR=./lib
 DAT_DIR=./data
 
-DEP=main.o Vertex.o Graph.o BinaryHeap.o Time.o
-DEP_ACT=$(BLD_DIR)/main.o $(BLD_DIR)/Vertex.o $(BLD_DIR)/Graph.o $(BLD_DIR)/BinaryHeap.o $(BLD_DIR)/Time.o
-HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Graph.h $(INC_DIR)/BinaryHeap.h $(INC_DIR)/MST.h $(INC_DIR)/Time.h
+DEP=main.o Vertex.o Graph.o Time.o DHeap.o
+DEP_ACT=$(BLD_DIR)/main.o $(BLD_DIR)/Vertex.o $(BLD_DIR)/Graph.o $(BLD_DIR)/Time.o $(BLD_DIR)/DHeap.o
+HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Graph.h $(INC_DIR)/MST.h $(INC_DIR)/Time.h $(INC_DIR)/DHeap.h
 
 COMPILE=$(CPP) $(CPPFLAGS)
 

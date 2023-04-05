@@ -12,7 +12,7 @@
 #include "../include/Graph.h"
 #include "../include/Edge.h"
 #include "../include/Vertex.h"
-#include "../include/BinaryHeap.h"
+#include "../include/DHeap.h"
 
 struct DisjointSet
 {
@@ -25,7 +25,6 @@ struct DisjointSet
     DisjointSet(std::vector<Vertex*> vertices)
     {
         this->n = vertices.size();
-        std::cout << n << std::endl;
         parent = new int[n];
         rank = new int[n];
 
@@ -72,26 +71,25 @@ struct DisjointSet
  * @brief Computes the Minimum Spanning Tree using Kruskal's algorithm
  * 
  * @param graph the graph to compute the MST on
+ * @param k the node size to set; d = 2^k
  * @return std::vector<Edge*> the edges of the MST
  */
-std::vector<Edge*> computeMST(Graph* graph) {
+std::vector<Edge*> computeMST(Graph* graph, unsigned int k) {
     // Allocate memory for number of edges in the MST
     std::vector<Edge*> mst;
     mst.reserve(graph->vertices.size() - 1);
-
-    // implementation here
     
     // Create a disjoint set for each vertex in the graph
     DisjointSet ds(graph->vertices);
 
     // Create a priority queue based on edge weight
     // Put all edges in the queue
-    BinaryHeap Q = BinaryHeap(graph->edges);
+    DHeap Q = DHeap(graph->edges, k);
 
     // Counter for the while loop
     int counter = 0;
 
-    while(Q.heapList.size() != 0)
+    while(mst.size() != graph->vertices.size() - 1)
     {
         Edge* e = Q.removeMin();
 
