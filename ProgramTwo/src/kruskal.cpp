@@ -89,7 +89,7 @@ std::vector<Edge*> computeMST(Graph* graph, unsigned int k) {
     // Counter for the while loop
     int counter = 0;
 
-    while(mst.size() != graph->vertices.size() - 1)
+    while(Q.heapList.size() != 0)
     {
         Edge* e = Q.removeMin();
 

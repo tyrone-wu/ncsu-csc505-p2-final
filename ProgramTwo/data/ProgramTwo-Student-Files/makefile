@@ -32,7 +32,7 @@ normalize-weights: normalize-weights.o graph.o random.o
 	$(CC) normalize-weights.o graph.o random.o -lm -o normalize-weights
 
 triangulation: triangulation.o graph.o
-	$(CC) triangulation.o graph.o random.o -o triangulation
+	$(CC) triangulation.o graph.o random.o -lm -o triangulation
 
 graph.o: $(COMMON_HEADERS) graph.c
 
