@@ -12,6 +12,19 @@
 
 #include <iostream>
 
+// Global counter for number of comparison operators performed.
+extern unsigned long long compares;
+
+// The possible comparison operators
+enum Operator {
+    LESS,
+    LESS_EQUALS,
+    EQUALS, 
+    GREATER,
+    GREATER_EQUALS,
+    NOT_EQUALS
+};
+
 class Edge {
 public:
 
@@ -41,6 +54,34 @@ public:
      */
     void printEdge() {
         std::cout << "e " << (this->source + 1) << " " << (this->destination + 1) << " " << this->weight << std::endl;
+    }
+
+    /**
+     * @brief Compares the two edges weight.
+     * 
+     * @param op the operator to use
+     * @param lhs the left hand side's edge
+     * @param rhs the right hand side's edge
+     * @return int -1 if lhs edge weight is less than rhs edge weight; 0 if edges weights are equal; 1 if lhs edge weight is greater than rhs edge weight
+     */
+    static bool cmp(Edge* lhs, Operator op, Edge* rhs) {
+        // Increment compares
+        compares++;
+
+        switch (op) {
+            case LESS:
+                return lhs->weight < rhs->weight;
+            case LESS_EQUALS:
+                return lhs->weight <= rhs->weight;
+            case EQUALS:
+                return lhs->weight == rhs->weight;
+            case GREATER:
+                return lhs->weight > rhs->weight;
+            case GREATER_EQUALS:
+                return lhs->weight >= rhs->weight;
+            case NOT_EQUALS:
+                return lhs->weight != rhs->weight;
+        }
     }
 };
 

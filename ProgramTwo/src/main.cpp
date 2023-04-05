@@ -114,6 +114,15 @@ long totalWeight(vector<Edge*> edges) {
  * @return int the return status of the program
  */
 int main(int argc, char* argv[]) {
+    // Exit error if no arguments passed
+    if (argc != 2) {
+        cerr << "Invalid arguments" << endl;
+        return 1;
+    }
+
+    // Set k value for DHeap. k = 1 for binary heap
+    unsigned int k = stoi(argv[1]);
+
     // The graph data structure
     Graph* graph;
 
@@ -142,8 +151,14 @@ int main(int argc, char* argv[]) {
 
     // Benchmark mst
     timer.start();
-    vector<Edge*> mst = computeMST(graph);
+    vector<Edge*> mst = computeMST(graph, k);
     timer.stop();
+
+    // Exit with error if graph is not connected
+    if (graph->vertices.size() - 1 != mst.size()) {
+        cerr << "Error: Graph is not connected." << endl;
+        return 1;
+    }
 
     // Print edges of mst to standard output
     printMST(graph, mst);

@@ -20,8 +20,9 @@
  * @brief Computes the Minimum Spanning Tree on the given graph
  * 
  * @param graph the graph to compute the MST on
+ * @param k the node size to set; d = 2^k
  * @return std::vector<Edge*> the edges of the MST
  */
-std::vector<Edge*> computeMST(Graph* graph);
+std::vector<Edge*> computeMST(Graph* graph, unsigned int k);
 
 #endif // MST_H

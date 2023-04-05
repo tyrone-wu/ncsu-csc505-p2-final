@@ -32,4 +32,4 @@ then
 fi
 
 # Execute MST program
-./bin/"$1"
+./bin/"$1" 1

@@ -17,7 +17,8 @@
  * @param edges the list of edges to create a d-ary heap from
  */
 DHeap::DHeap(std::vector<Edge*>& edges, unsigned int k) {
-    // Set d value
+    // Set k and d value for node size
+    this->k = k;
     this->d = 1 << k;
 
     // Copy the list of initial edges into the heap
@@ -33,43 +34,47 @@ DHeap::DHeap(std::vector<Edge*>& edges, unsigned int k) {
  * @param capacity the capacity to set
  */
 DHeap::DHeap(int capacity, unsigned int k) {
+    // Set k and d value for node size
+    this->k = k;
+    this->d = 1 << k;
+
     this->heapList.reserve(capacity);
 }
 
 /** 
- * @brief Finds the left child and returns its index
+ * @brief Finds the left-most child and returns its index
  * 
- * @param i The index of the parent's whose left child you're trying to find
-*/
-int DHeap::lChild(int i) {
-    return 2 * i + 1;
+ * @param i The index of the parent's whose left-most child you're trying to find
+ */
+unsigned int DHeap::lChild(unsigned int i) {
+    return (i << this->k) + 1;
 }
 
 /** 
- * @brief Finds the right child and returns its index
+ * @brief Finds the right-most child and returns its index
  * 
- * @param i The index of the parent's whose right child you're trying to find
-*/
-int DHeap::rChild(int i) {
-    return 2 * i + 2;
+ * @param i The index of the parent's whose right-most child you're trying to find
+ */
+unsigned int DHeap::rChild(unsigned int i) {
+    return (i << this->k) + this->d;
 }
 
 /** 
  * @brief Finds the parent of the current node
  * 
  * @param i The index of the of the current node
-*/
-int DHeap::parent(int i) {
-    return (i - 1) / 2;
+ */
+unsigned int DHeap::parent(unsigned int i) {
+    return (i - 1) >> this->k;
 }
 
 /** 
  * @brief Returns if the current node is a Leaf
  * 
  * @param i The index of the of the current node
-*/
-bool DHeap::isLeaf(int i) {
-    return i >= (heapList.size() / 2);
+ */
+bool DHeap::isLeaf(unsigned int i) {
+    return this->lChild(i) >= this->heapList.size();
 }
 
 /**
@@ -77,7 +82,7 @@ bool DHeap::isLeaf(int i) {
  * 
  * @param i The index of the node you are trying to hepify
  */
-void DHeap::heapify(int i) {
+void DHeap::heapify(unsigned int i) {
     // Base case return if i is leaf node
     if (isLeaf(i)) {
         return;
@@ -86,16 +91,16 @@ void DHeap::heapify(int i) {
     // Track min index to swap
     int min = i;
 
-    // Set min to left if left is smaller
-    int left = this->lChild(i);
-    if ((left < this->heapList.size()) && (this->heapList.at(left)->weight < this->heapList.at(min)->weight)) {
-        min = left;
-    }
+    // Iterate through the children of node i
+    for (int j = this->lChild(i); j <= this->rChild(i); j++) {
+        // Exit loop if no more children to iterate
+        if (j >= this->heapList.size()) {
+            break;
+        }
 
-    // Set min to right if right is smaller
-    int right = this->rChild(i);
-    if ((right < this->heapList.size()) && (this->heapList.at(right)->weight < this->heapList.at(min)->weight)) {
-        min = right;
+        if (Edge::cmp(this->heapList.at(j), Operator::LESS, this->heapList.at(min))) {
+            min = j;
+        }
     }
 
     // Recursively swap until no swap is needed
@@ -112,7 +117,7 @@ void DHeap::heapify(int i) {
  */
 void DHeap::buildHeap() {
     // Min Heapify edges
-    for (int i = this->heapList.size() / 2 - 1; i >= 0; i--) {
+    for (int i = (this->heapList.size() >> this->k); i >= 0; i--) {
         this->heapify(i);
     }
 }
@@ -143,11 +148,14 @@ Edge* DHeap::removeMin() {
 void DHeap::addEdge(Edge* e) {
     // Append edge to back of the heap
     this->heapList.push_back(e);
-    // Percolate edge until no more swap is made
-    int idx = this->heapList.size() - 1;
-    while (idx != 0 && this->heapList[idx]->weight < this->heapList[parent(idx)]->weight) {
-        std::swap(this->heapList[idx], this->heapList[parent(idx)]);
-        idx = parent(idx);
+
+    // Percolate up edge until no more swap is made
+    unsigned int idx = this->heapList.size() - 1;
+    unsigned int parentIdx = this->parent(idx);
+    while (idx != 0 && Edge::cmp(this->heapList.at(idx), Operator::LESS, this->heapList.at(parentIdx))) {
+        std::swap(this->heapList[idx], this->heapList[parentIdx]);
+        idx = parentIdx;
+        parentIdx = this->parent(parentIdx);
     }
 }
 

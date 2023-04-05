@@ -10,9 +10,6 @@
 #include <iostream>
 #include "../include/Graph.h"
 
-// Global counter for number of comparison operators performed.
-extern unsigned long long compares;
-
 /**
  * @brief Adds a vertex to the graph with the id, x, and y value.
  * 
