@@ -37,13 +37,25 @@ kruskal: $(DEP) kruskal.o prep-script
 test-prim: prep-script
 	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
 	@chmod +x ./scripts/test_mst.sh
-	./scripts/test_mst.sh prim
+	./scripts/test_mst.sh prim 1
 
 # Test kruskal
 test-kruskal: prep-script
 	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
 	@chmod +x ./scripts/test_mst.sh
-	./scripts/test_mst.sh kruskal
+	./scripts/test_mst.sh kruskal 1
+
+# Test prim with k = 2
+test-prim-k2: prep-script
+	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
+	@chmod +x ./scripts/test_mst.sh
+	./scripts/test_mst.sh prim 2
+
+# Test prim with k = 3
+test-prim-k3: prep-script
+	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
+	@chmod +x ./scripts/test_mst.sh
+	./scripts/test_mst.sh prim 3
 
 # Removes carriage return and makes script executable
 prep-script:
