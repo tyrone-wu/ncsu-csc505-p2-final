@@ -12,12 +12,19 @@
 
 #include <vector>
 #include "./Edge.h"
+#include <limits>
 
 class Vertex {
 public:
 
     // The vertex unique ID
     unsigned int id;
+    // Heap Location for Prims
+    unsigned int idHeap;
+    // Edge used in the minheap for Prims
+    Edge* edge = nullptr;
+    // Distance for Prims
+    int distance = std::numeric_limits<int>::max();
     // x coordinate (optional)
     int x;
     // y coordinate (optional)
@@ -38,6 +45,7 @@ public:
         this->id = id;
         this->x = x;
         this->y = y;
+        this->idHeap = id;
     }
 
     /**
