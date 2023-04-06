@@ -57,6 +57,12 @@ test-prim-k3: prep-script
 	@chmod +x ./scripts/test_mst.sh
 	./scripts/test_mst.sh prim 3
 
+# Test prim with k = 4
+test-prim-k4: prep-script
+	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
+	@chmod +x ./scripts/test_mst.sh
+	./scripts/test_mst.sh prim 4
+
 # Removes carriage return and makes script executable
 prep-script:
 	@sed -i -e 's/\r$$//' ./run_mst.sh

@@ -84,7 +84,7 @@ std::vector<Edge*> computeMST(Graph* graph, unsigned int k) {
 
     // Create a priority queue based on edge weight
     // Put all edges in the queue
-    DHeap Q = DHeap(graph->edges, k);
+    DHeap Q = DHeap(graph->edges, graph->edges.size(), k);
 
     // Counter for the while loop
     int counter = 0;

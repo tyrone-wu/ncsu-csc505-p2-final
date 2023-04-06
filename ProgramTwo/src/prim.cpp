@@ -29,7 +29,7 @@ std::vector<Edge*> computeMST(Graph* graph, unsigned int k) {
     // We pick a start vertex
     Vertex* startV = graph->vertices.at(0);
     // Look at the edges incident to the start vertex and put them in the min heap priority queue: Q
-    DHeap Q = DHeap(startV->incidentEdges, k);
+    DHeap Q = DHeap(startV->incidentEdges, graph->edges.size(), k);
     // Mark the start vertex as in the mst
     graph->vertices.at(0)->marked = true;
     // While there are still edges in Q...

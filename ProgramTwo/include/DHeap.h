@@ -28,17 +28,10 @@ public:
      * @brief Construct a new d-ary Heap object of the given list of edges.
      * 
      * @param edges the list of edges to create a d-ary heap from
+     * @param capacity the capacity of the heap
      * @param k the k value to compute the node size d = 2^k
      */
-    DHeap(std::vector<Edge*>& edges, unsigned int k);
-
-    /**
-     * @brief Construct a new empty d-ary Heap object with the capacity
-     * 
-     * @param capacity the capacity to set
-     * @param k the k value to compute the node size d = 2^k
-     */
-    DHeap(int capacity, unsigned int k);
+    DHeap(std::vector<Edge*>& edges, unsigned int capacity, unsigned int k);
 
     /** 
      * @brief Finds the left-most child and returns its index

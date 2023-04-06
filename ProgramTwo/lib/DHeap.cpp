@@ -16,29 +16,16 @@
  * 
  * @param edges the list of edges to create a d-ary heap from
  */
-DHeap::DHeap(std::vector<Edge*>& edges, unsigned int k) {
+DHeap::DHeap(std::vector<Edge*>& edges, unsigned int capacity, unsigned int k) {
     // Set k and d value for node size
     this->k = k;
     this->d = 1 << k;
 
     // Copy the list of initial edges into the heap
-    this->heapList.reserve(edges.size());
-    this->heapList = edges;
+    this->heapList.reserve(capacity);
+    this->heapList.assign(edges.begin(), edges.end());
 
     this->buildHeap();
-}
-
-/**
- * @brief Construct a new empty Binary Heap object with the capacity
- * 
- * @param capacity the capacity to set
- */
-DHeap::DHeap(int capacity, unsigned int k) {
-    // Set k and d value for node size
-    this->k = k;
-    this->d = 1 << k;
-
-    this->heapList.reserve(capacity);
 }
 
 /** 
