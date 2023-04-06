@@ -22,10 +22,8 @@ MIN_ATTEMPTS=50
 MAX_32_BIT=2147483647
 MAX_64_BIT=9223372036854775807
 
-DATA_DIR="./data/experiment/input"
-
 usage() {
-    echo "$1 [ NUMBER_OF_INSTANCES ] TYPE NODES EDGES STARTING_SEED [ MAX_WEIGHT ]"
+    echo "$1 [ NUMBER_OF_INSTANCES ] TYPE NODES EDGES STARTING_SEED DIR [ MAX_WEIGHT ]"
     echo " creates random graphs with the given number of nodes and edges"
     echo " NUMBER_OF_INSTANCES is the number of graphs created, an integer (=1 if absent)"
     echo " TYPE is one of:"
@@ -33,6 +31,7 @@ usage() {
     echo " NODES and EDGES are number of nodes and edges, respectively"
     echo " STARTING_SEED is the random seed of the first (attempted) instance"
     echo "               remaining seeds are consecutive integers after that"
+    echo " DIR the directory to write the file in"
     echo " MAX_WEIGHT (optional) is the desired maximum edge weight"
     echo "            -1 or -2 means that the sum of n-1 edges (n = NODES)"
     echo "            will not exceed the maximum 32 or 64 bit integer, respectively"
@@ -64,6 +63,8 @@ num_edges=$1
 shift
 starting_seed=$1
 if [ $starting_seed -lt 0 ]; then starting_seed=$((-starting_seed)); fi
+shift
+data_dir=$1
 shift
 if [ $# -ne 0 ]; then
     max_weight=$1
@@ -144,7 +145,7 @@ until [[ $successful_attempts -ge $num_instances ]] || [[ $attempts -gt $max_att
     if [ $success -eq 0 ]; then
         out_file=${graph_type}_${node_string}_${edge_string}_${weight_string}_${seed_string}.gph
         if [ $graph_type = "random" ]; then
-            mv $temp_file $DATA_DIR/$out_file
+            mv $temp_file $data_dir/$out_file
         else
             # geometric or triangulation: need to fix number of edges and revise file name
             # count lines that begin with e followed by a space
@@ -152,11 +153,11 @@ until [[ $successful_attempts -ge $num_instances ]] || [[ $attempts -gt $max_att
             true_num_edges=`grep '^e[[:space:]]' $temp_file | wc | awk '{print $1}'`
             edge_string=`echo $desired_num_edges | awk '{printf "%06d",$1}'`
             out_file=${graph_type}_${node_string}_${edge_string}_${weight_string}_${seed_string}.gph
-            echo "c $num_nodes $true_num_edges $max_weight $seed" > $DATA_DIR/$out_file
-            sed "s/^g[[:space:]][0-9]*[[:space:]][0-9]*/g $num_nodes $true_num_edges/" $temp_file >> $DATA_DIR/$out_file
+            echo "c $num_nodes $true_num_edges $max_weight $seed" > $data_dir/$out_file
+            sed "s/^g[[:space:]][0-9]*[[:space:]][0-9]*/g $num_nodes $true_num_edges/" $temp_file >> $data_dir/$out_file
             rm $temp_file
         fi
-        echo "successfully created graph in $DATA_DIR/$out_file"
+        echo "successfully created graph in $data_dir/$out_file"
         successful_attempts=$((successful_attempts + 1))
     fi
     seed=$((seed + 1))
