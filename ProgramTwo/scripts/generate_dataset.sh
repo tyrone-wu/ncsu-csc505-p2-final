@@ -20,7 +20,7 @@ do
     for (( E = 3 * $V; E <= ($V * ($V - 1)) / 2; E *= 3 ))
     do
         # Break if gets too large
-        if [ $E > 25000000 ] 
+        if [ "$E" -gt 25000000 ] 
         then
             break
         fi
@@ -31,7 +31,7 @@ do
         # Iterate seeds
         for seed in "${SEEDS[@]}"
         do
-            $GEN_CMD $V $E $seed $DATA_DIR/V-$V/E-$E
+            $GEN_CMD $V $E $seed $DATA_DIR/V-$V/E-$E $V
         done
     done
 done

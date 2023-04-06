@@ -98,8 +98,8 @@ void printMST(Graph* graph, std::vector<Edge*> edges) {
  * @param edges the edges of the MST
  * @return long the total weight of the MST
  */
-long long totalWeight(vector<Edge*> edges) {
-    long long sum = 0;
+unsigned long long totalWeight(vector<Edge*> edges) {
+    unsigned long long sum = 0;
     for (auto e : edges) {
         sum += e->weight;
     }
