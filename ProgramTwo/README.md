@@ -42,7 +42,7 @@ $ ./run_mst.sh [primLazy|prim|kruskal] [k_value] < [file_path]
 #   [primLazy|prim|kruskal]     MST algorithm to use
 #     - primLazy                    Prim-Jarnik's algorithm with lazy deletion and no decrease key
 #     - prim                        Prim-Jarnik's algorithm with decrease key
-#     - kruskal                     Kruskal's algorithm with disjoint sets
+#     - kruskal                     Kruskal's algorithm with disjoint sets with rank
 #   k_value                     Sets the node size for d-ary heap, d = 2^k. Set k = 1 for binary heap.
 #   file_path                   File that contains the graph; must be in format .gph
 ```
@@ -55,6 +55,6 @@ $ ./run_mst.sh primLazy 1 < [file_path]
 # Prim's with decrease key and d-ary heap of d = 2^k
 $ ./run_mst.sh prim [k_value] < [file_path]
 
-# Kruskal's with disjoint sets and binary heap
+# Kruskal's with disjoint sets with rank and binary heap
 $ ./run_mst.sh kruskal 1 < [file_path]
 ```
