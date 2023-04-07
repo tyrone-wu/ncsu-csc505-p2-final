@@ -1,10 +1,10 @@
 #!/bin/bash
 
-IN_DIR=./data/experiment/input-01
+IN_DIR=./data/experiment/input-02
 # Where to write the results to
 OUT_DIR=./data/experiment/results/e
 # k-values for prim's
-K_s=( 1 2 3 4 )
+K_s=( 1 2 3 4 5 )
 
 # Benchmark algo on v and e size; $1 = algo, $2 = k
 function benchmark() {
@@ -78,3 +78,7 @@ do
     echo "Benchmarking Prim's k = $k"
     benchmark prim $k
 done
+
+# Prim's lazy
+echo "Benchmarking Lazy Prim's"
+benchmark primLazy 1
