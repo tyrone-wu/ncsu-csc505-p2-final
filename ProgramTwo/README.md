@@ -1,4 +1,4 @@
-# Program Two for (team name)
+# Program Two for DEF
 
 ## Teammates
 
@@ -12,7 +12,7 @@
 
 ```sh
 # example: make prim
-$ make [prim|kruskal]
+$ make [primLazy|prim|kruskal]
 
 # output: 
 # clang++ -std=c++20 -c src/main.cpp -o ./build/main.o
@@ -31,64 +31,30 @@ $ sed -i -e 's/\r$//' run_mst.sh
 $ chmod +x run_mst.sh
 ```
 
-Script execution: 
+Script execution:  
+Setting `k` to `1` in the D-ary Heap (D = 2^k) is equivalent to a Binary Heap:
 ```sh
 # Execute script
-# example: `./run_mst.sh prim < ./data/input_01.gph`
-$ ./run_mst.sh [prim|kruskal] < [file_path]
+# example: `./run_mst.sh prim 1 < ./data/input_01.gph`
+$ ./run_mst.sh [primLazy|prim|kruskal] [k_value] < [file_path]
 
-# output:
-# g 5 5
-# e 1 2 1
-# ...
-# weight      WEIGHT_OF_MST
-# runtime     SECONDS
-# comparisons NUMBER_OF_COMPARISONS
+# arguments:
+#   [primLazy|prim|kruskal]     MST algorithm to use
+#     - primLazy                    Prim-Jarnik's algorithm with lazy deletion and no decrease key
+#     - prim                        Prim-Jarnik's algorithm with decrease key
+#     - kruskal                     Kruskal's algorithm with disjoint sets
+#   k_value                     Sets the node size for d-ary heap, d = 2^k. Set k = 1 for binary heap.
+#   file_path                   File that contains the graph; must be in format .gph
 ```
 
-For edges of the MST: 
+Example Usages:
 ```sh
-# MST is printed onto standard output
-$ ./run_mst.sh prim < ./data/input_01.gph 2> /dev/null
+# Prim's with lazy deletion and binary heap
+$ ./run_mst.sh primLazy 1 < [file_path]
 
-# output:
-# g 5 5
-# e 1 2 1
-# ...
-# e 1 5 1
-```
+# Prim's with decrease key and d-ary heap of d = 2^k
+$ ./run_mst.sh prim [k_value] < [file_path]
 
-Format of standard output:
-```sh
-# Format:
-g number_of_nodes number_of_edges
-e source_1 target_1 weight_1
-...
-e source_m target_m weight_m
-```
-
-For benchmark only:
-```sh
-# Benchmark is printed onto standard error
-$ ./run_mst.sh prim < ./data/input_01.gph 1> /dev/null
-
-# output:
-# weight      WEIGHT_OF_MST
-# runtime     SECONDS
-# comparisons NUMBER_OF_COMPARISONS
-```
-
-### Run test cases
-
-```sh
-# example: make test-prim
-$ make [test-prim|test-kruskal]
-
-# output:
-# ...
-# 🧪 Running prim MST with c5.gph:
-# Test case c5.gph passed. ✅ :)
-
-# 🧪 Running prim MST with bt7.gph:
-# Test case bt7.gph passed. ✅ :)
+# Kruskal's with disjoint sets and binary heap
+$ ./run_mst.sh kruskal 1 < [file_path]
 ```

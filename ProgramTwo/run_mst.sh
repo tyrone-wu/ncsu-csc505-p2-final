@@ -9,9 +9,9 @@ function error_exit() {
     echo 
     echo "arguments:"
     echo "  [primLazy|prim|kruskal]     MST algorithm to use"
-    echo "    - primLazy                    Prim-Jarnik's algorithm with lazy deletion"
-    echo "    - prim                        Prim-Jarnik's algorithm with decreaseKey"
-    echo "    - kruskal                     Kruskal's algorithm"
+    echo "    - primLazy                    Prim-Jarnik's algorithm with lazy deletion and no decrease key"
+    echo "    - prim                        Prim-Jarnik's algorithm with decrease key"
+    echo "    - kruskal                     Kruskal's algorithm with disjoint sets"
     echo "  k_value                     Sets the node size for d-ary heap, d = 2^k. Set k = 1 for binary heap."
     echo "  file_path                   File that contains the graph; must be in format .gph"
     echo 
