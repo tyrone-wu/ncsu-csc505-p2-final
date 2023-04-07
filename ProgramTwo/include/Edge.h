@@ -62,7 +62,7 @@ public:
      * @param op the operator to use
      * @param lhs the left hand side's edge
      * @param rhs the right hand side's edge
-     * @return int -1 if lhs edge weight is less than rhs edge weight; 0 if edges weights are equal; 1 if lhs edge weight is greater than rhs edge weight
+     * @return true if the operator evaluates to true; otherwise, false
      */
     static bool cmp(Edge* lhs, Operator op, Edge* rhs) {
         // Increment compares

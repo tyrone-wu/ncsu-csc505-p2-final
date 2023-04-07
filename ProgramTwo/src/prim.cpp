@@ -38,18 +38,24 @@ std::vector<Edge*> computeMST(Graph* graph, unsigned int k) {
         if(miniumVertex->edge != nullptr){
             mst.push_back(miniumVertex->edge);
         }
+
         // Find the incident edges to this new vertex
         std::vector<Edge*> newEdges = miniumVertex->incidentEdges;
+
         // For all of these incident edges...
         for(int i = 0; i < newEdges.size(); i++){
             // Find the end point of the edge that is not the recently marked vertex
             Vertex* newEdgeDest = graph->vertices.at(newEdges.at(i)->source);
             if(newEdgeDest->id == miniumVertex->id)
                 newEdgeDest = graph->vertices.at(newEdges.at(i)->destination);
+
+            // Increment compare here since comparing different fields
+            compares++; 
             // If this new edge can't get to the node with less cost, update the distance.
             if (newEdges.at(i)->weight < newEdgeDest->distance){
-                newEdgeDest->edge=newEdges.at(i);
-                Q.decreaseKey(newEdgeDest->id, newEdges.at(i)->weight);
+                newEdgeDest->distance = newEdges.at(i)->weight;
+                newEdgeDest->edge = newEdges.at(i);
+                Q.decreaseKey(newEdgeDest->idHeap, newEdges.at(i)->weight);
             }
         }
     }

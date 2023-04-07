@@ -14,6 +14,8 @@
 #include "../include/Vertex.h"
 #include "../include/DHeap.h"
 
+
+
 struct DisjointSet
 {
     int* parent;
@@ -40,6 +42,7 @@ struct DisjointSet
     {
         if (child != parent[child])
         {
+            compares++;
             parent[child] = findParent(parent[child]);
         }
 

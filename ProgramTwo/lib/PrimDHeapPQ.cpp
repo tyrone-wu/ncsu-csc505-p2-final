@@ -1,5 +1,5 @@
 /**
- * @file DHeap.cpp
+ * @file PrimDHeapPQ.cpp
  * @author Andrew Sauerbrei
  *         AJ Bulthuis
  *         Tyrone Wu
@@ -85,7 +85,7 @@ void PrimDHeapPQ::heapify(unsigned int i) {
             break;
         }
 
-        if (this->heapList.at(j)->distance < this->heapList.at(min)->distance) {
+        if (Vertex::cmp(this->heapList.at(j), Operator::LESS, this->heapList.at(min))) {
             min = j;
         }
     }
@@ -97,6 +97,7 @@ void PrimDHeapPQ::heapify(unsigned int i) {
         this->heapList[i]->idHeap = this->heapList[min]->idHeap;
         this->heapList[min]->idHeap = idHeap;
         std::swap(this->heapList[i], this->heapList[min]);
+
         heapify(min);
     }
 }
@@ -104,18 +105,19 @@ void PrimDHeapPQ::heapify(unsigned int i) {
 /**
  * @brief Changes the distance value and reorders the heap
  * 
- * @param i The index of the node you arr trying yo change
+ * @param i The index of the node you arr trying to change
  * @param dist The new distance value
  */
 void PrimDHeapPQ::decreaseKey(unsigned int i, int dist){
-   this->heapList[i]->distance = dist;
-   
-   // Percolate up edge until no more swap is made
-    while (i != 0 && this->heapList.at(i) < this->heapList.at(parent(i))) {
-        this->heapList[i]->idHeap = this->heapList[parent(i)]->idHeap;
-        this->heapList[parent(i)]->idHeap = i;
-        std::swap(this->heapList[i], this->heapList[parent(i)]);
-        i = parent(i);
+    // Percolate up edge until no more swap is made
+    int parentIdx = parent(i);
+    while (i != 0 && Vertex::cmp(this->heapList.at(i), Operator::LESS, this->heapList.at(parentIdx))) {
+        this->heapList[i]->idHeap = this->heapList[parentIdx]->idHeap;
+        this->heapList[parentIdx]->idHeap = i;
+        std::swap(this->heapList[i], this->heapList[parentIdx]);
+        
+        i = parentIdx;
+        parentIdx = parent(i);
     }
 }
 
@@ -137,11 +139,8 @@ void PrimDHeapPQ::buildHeap() {
  */
 Vertex* PrimDHeapPQ::removeMin() {
     // Swap root with the last item in the vector-based heap
-    unsigned int idHeap = this->heapList[0]->idHeap;
-    this->heapList[0]->idHeap = this->heapList[this->heapList.size() - 1]->idHeap;
-    this->heapList[this->heapList.size() - 1]->idHeap = idHeap;
-
     std::swap(this->heapList[0], this->heapList[this->heapList.size() - 1]);
+    this->heapList[0]->idHeap = 0;
 
     // Extract the min edge
     Vertex* min = this->heapList[this->heapList.size() - 1];

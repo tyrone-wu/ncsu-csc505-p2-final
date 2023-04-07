@@ -19,18 +19,19 @@ public:
 
     // The vertex unique ID
     unsigned int id;
-    // Heap Location for Prims
-    unsigned int idHeap;
-    // Edge used in the minheap for Prims
-    Edge* edge = nullptr;
-    // Distance for Prims
-    int distance = std::numeric_limits<int>::max();
     // x coordinate (optional)
     int x;
     // y coordinate (optional)
     int y;
     // List of incident edges
     std::vector<Edge*> incidentEdges;
+
+    // Heap Location for Prims
+    unsigned int idHeap;
+    // Edge used in the minheap for Prims
+    Edge* edge = nullptr;
+    // Distance for Prims
+    int distance = std::numeric_limits<int>::max();
     // Used to mark a vertex
     bool marked = false;
 
@@ -63,6 +64,34 @@ public:
      * @param edge the edge to add
      */
     void addEdge(Edge* edge);
+
+    /**
+     * @brief Compares the two vertices.
+     * 
+     * @param op the operator to use
+     * @param lhs the left hand side's vertex
+     * @param rhs the right hand side's vertex
+     * @return true if the operator evaluates to true; otherwise, false
+     */
+    static bool cmp(Vertex* lhs, Operator op, Vertex* rhs) {
+        // Increment compares
+        compares++;
+
+        switch (op) {
+            case LESS:
+                return lhs->distance < rhs->distance;
+            case LESS_EQUALS:
+                return lhs->distance <= rhs->distance;
+            case EQUALS:
+                return lhs->distance == rhs->distance;
+            case GREATER:
+                return lhs->distance > rhs->distance;
+            case GREATER_EQUALS:
+                return lhs->distance >= rhs->distance;
+            case NOT_EQUALS:
+                return lhs->distance != rhs->distance;
+        }
+    }
 };
 
 #endif // VERTEX_H
