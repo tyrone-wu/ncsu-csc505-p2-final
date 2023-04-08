@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include "../include/Graph.h"
 #include "../include/Edge.h"
 #include "../include/BinaryHeap.h"
@@ -165,7 +166,7 @@ int main(int argc, char* argv[]) {
 
     // Print the benchmark to standard error
     cerr << "weight      " << totalWeight(mst) << endl;
-    cerr << "runtime     " << timer.getTotalTime() << endl;
+    cerr << "runtime     " << fixed << setprecision(2) << timer.getTotalTime() << endl;
     cerr << "comparisons " << compares << endl;
 
     return 0;

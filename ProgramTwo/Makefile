@@ -15,7 +15,7 @@ HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Graph.h $(INC_DIR)/MST.
 COMPILE=$(CPP) $(CPPFLAGS)
 
 # Build MST executable
-prim-lazy: $(DEP) DHeap.o primLazy.o prep-script
+primLazy: $(DEP) DHeap.o primLazy.o prep-script
 	@mkdir -p $(BIN_DIR)
 	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/DHeap.o $(BLD_DIR)/primLazy.o -o $(BIN_DIR)/primLazy
 
