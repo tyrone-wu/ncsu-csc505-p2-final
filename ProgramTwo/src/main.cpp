@@ -32,7 +32,10 @@ void parseTokens(string &line, vector<string> &tokens) {
     istringstream iss(line);
     string token;
     while (getline(iss, token, ' ')) {
-        tokens.push_back(token);
+        stringstream ss(token);
+        while(getline(ss, token, '\t')){
+            tokens.push_back(token);
+        }
     }
 }
 
