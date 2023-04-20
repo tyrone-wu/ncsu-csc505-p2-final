@@ -23,12 +23,18 @@ public:
     std::vector<Edge*> edges;
 
     /**
-     * @brief Construct an empty graph with the given capacities.
+     * @brief Construct an empty graph
+     * 
+     */
+    Graph();
+
+    /**
+     * @brief Construct a new add Capacity object
      * 
      * @param numVerticies the number of vertices to expect
      * @param numEdges the number of edges to expect
      */
-    Graph(unsigned int numVerticies, unsigned int numEdges);
+    void addCapacity(unsigned int numVerticies, unsigned int numEdges);
 
     /**
      * @brief Adds a vertex to the graph with the id.
@@ -55,9 +61,10 @@ public:
     /**
      * @brief Reads file to graph object
      * 
+     * @param graph the graph to store in
      * @param filePath the gph file to read
      */
-    void readFile(std::string filePath);
+    void readFile(Graph* graph, std::string filePath);
 };
 
 #endif // GRAPH_H

@@ -14,10 +14,10 @@ HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Edge.h $(INC_DIR)/Graph
 
 COMPILE=$(CPP) $(CPPFLAGS)
 
-# # Build MST executable
-# primLazy: $(DEP) DHeap.o primLazy.o prep-script
-# 	@mkdir -p $(BIN_DIR)
-# 	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/DHeap.o $(BLD_DIR)/primLazy.o -o $(BIN_DIR)/primLazy
+# Build MST executable
+main: $(DEP)
+	@mkdir -p $(BIN_DIR)
+	$(COMPILE) $(DEP_ACT) -o $(BIN_DIR)/main
 
 # Compile lib
 %.o: $(LIB_DIR)/%.cpp $(HEADERS)

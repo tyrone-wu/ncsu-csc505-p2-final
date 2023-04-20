@@ -9,7 +9,15 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
+#include "../include/ParseGraph.h"
 #include "../include/Graph.h"
+
+/**
+ * @brief Construct an empty graph.
+ * 
+ */
+Graph::Graph() {}
 
 /**
  * @brief Construct an empty graph with the given capacities.
@@ -17,9 +25,10 @@
  * @param numVerticies the number of vertices to expect
  * @param numEdges the number of edges to expect
  */
-Graph::Graph(unsigned int numVerticies, unsigned int numEdges) {
-    this->vertices = std::vector<Vertex*>(numVerticies, nullptr);
-    this->edges.reserve(numEdges);
+void Graph::addCapacity(unsigned int numVerticies, unsigned int numEdges) {
+    // this->vertices = std::vector<Vertex*>(numVerticies, nullptr);
+    this->vertices.resize(this->vertices.size() + numVerticies, nullptr);
+    this->edges.reserve(this->edges.capacity() + numEdges);
 }
 
 /**
@@ -28,7 +37,10 @@ Graph::Graph(unsigned int numVerticies, unsigned int numEdges) {
  * @param id the index of the vertex
  */
 Vertex* Graph::addVertex(unsigned int id) {
-    return this->addVertex(id);
+    if (this->vertices[id] == nullptr) {
+        this->vertices[id] = new Vertex(id);
+    }
+    return this->vertices[id];
 }
 
 /**
@@ -54,16 +66,16 @@ void Graph::addEdge(unsigned int source, unsigned int destination) {
 void Graph::printGraph() {
     // Prints the vertices
     for (Vertex* v : this->vertices) {
-        std::cout << "v - " << v->id << std::endl;
+        std::cout << "v " << (v->id + 1) << std::endl;
         for (Edge* e : v->incidentEdges) {
-            std::cout << "src: " << e->source  << ", dst: " << e->destination << std::endl;
+            e->printEdge();
         }
         std::cout << std::endl;
     }
 
     // Prints the edges
     for (Edge* e : this->edges) {
-        std::cout << "e - src: " << e->source << ", dst: " << e->destination << std::endl;
+        e->printEdge();
     }
 }
 
@@ -72,6 +84,29 @@ void Graph::printGraph() {
  * 
  * @param filePath the gph file to read
  */
-void Graph::readFile(std::string filePath) {
-    
+void Graph::readFile(Graph* graph, std::string filePath) {
+    // Offset for a new graph
+    unsigned int offset = this->vertices.size();
+
+    // Parse input into the graph object
+    std::string line;
+    std::ifstream infile(filePath);
+
+    while (std::getline(infile, line)) {
+        switch(line[0]) {
+            case 'g':
+                parseGraph(graph, line);
+                break;
+            case 'n':
+                parseNode(graph, line, offset - 1);
+                break;
+            case 'e':
+                parseEdge(graph, line, offset - 1);
+                break;
+            default:
+                continue;
+        }
+    }
+
+    infile.close();
 }

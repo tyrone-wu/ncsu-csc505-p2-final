@@ -26,5 +26,5 @@ Edge::Edge(unsigned int source, unsigned int destination) {
  * 
  */
 void Edge::printEdge() {
-    std::cout << "e " << (this->source + 1) << " " << (this->destination + 1) << " " << 1 << std::endl;
+    std::cout << "e " << (this->source + 1) << " " << (this->destination + 1) << std::endl;
 }

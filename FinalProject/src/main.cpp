@@ -8,11 +8,12 @@
  */
 
 #include <iostream>
+#include <filesystem>
 #include <iomanip>
-#include "../include/ParseGraph.h"
 #include "../include/Graph.h"
 #include "../include/Edge.h"
 #include "../include/Time.h"
+#include "../include/GraphComponents.h"
 
 using namespace std;
 
@@ -34,39 +35,24 @@ int main(int argc, char* argv[]) {
     string path = argv[1];
 
     // The graph data structure
-    Graph* graph;
-
-    // Parse input into the graph object
-    string line;
-    while (getline(cin, line)) {
-        switch(line[0]) {
-            case 'g':
-                graph = parseGraph(line);
-                break;
-            case 'n':
-                parseNode(graph, line);
-                break;
-            case 'e':
-                parseEdge(graph, line);
-                break;
-            default:
-                continue;
-        }
+    Graph* graph = new Graph();
+    // Parse files into graph
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+        graph->readFile(graph, entry.path().string());
     }
 
-    // Perform benchmark on the MST
+    // Perform benchmark
     Timer timer;
-
-    // Benchmark mst
     timer.start();
-    // algorithm goes here
+    // vector<Vertex*> components = getConnectedComponents(graph);
     timer.stop();
 
-    // Print number of connected components
+    // cout << components.size() << endl;
+    graph->printGraph();
 
     // Print the benchmark to standard error
-    // cerr << "weight      " << /* connected components */ << endl;
-    cerr << "runtime     " << fixed << setprecision(2) << timer.getTotalTime() << endl;
+    // cerr << "num components " << components.size() << endl;
+    cerr << "runtime        " << fixed << setprecision(2) << timer.getTotalTime() << endl;
 
     return 0;
 }
