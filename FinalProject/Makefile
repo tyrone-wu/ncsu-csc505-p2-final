@@ -34,6 +34,11 @@ lp-cc: $(DEP) LabelProp.o
 	$(COMPILE) -c $< -o $(BLD_DIR)/$@
 
 # Tests
+gen-test:
+	@sed -i -e 's/\r$$//' ./scripts/generate_test.sh
+	@chmod +x ./scripts/generate_test.sh
+	./scripts/generate_test.sh
+
 test-bfs-cc:
 	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
 	@chmod +x ./scripts/test_cc.sh
