@@ -16,6 +16,7 @@
  */
 Vertex::Vertex(unsigned int id) {
     this->id = id;
+    this->label = std::to_string(id);
 }
 
 /**

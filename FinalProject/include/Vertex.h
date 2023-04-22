@@ -12,6 +12,7 @@
 
 #include <vector>
 #include "./Edge.h"
+#include <string>
 
 class Vertex {
 public:
@@ -22,6 +23,7 @@ public:
     std::vector<Edge*> incidentEdges;
     // Used to mark a vertex
     int mark = -1;
+    string label;
 
     /**
      * @brief Construct a new Vertex object with the given data.
