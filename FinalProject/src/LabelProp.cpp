@@ -23,7 +23,7 @@ using namespace std;
 Vertex* getOpposite(Vertex* v, Edge* e, Graph* graph){
     Vertex* r = graph->vertices[e->destination];
     if(r->id == v->id)
-        return graph->vertices[e->destination];
+        return graph->vertices[e->source];
     return r;
 }
 
