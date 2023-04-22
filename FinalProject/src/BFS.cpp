@@ -9,10 +9,10 @@
  */
 
 #include <vector>
-#include "omp.h"
-#include "../include/Graph.h"
-#include "../include/Vertex.h"
 #include <iostream>
+#include "omp.h"
+#include "../include/GraphComponents.h"
+
 using namespace std;
 
 //This just grabs the node opposite of vertex v through Edge e in Graph g
@@ -29,7 +29,7 @@ Vertex* getOpposite(Vertex* v, Edge* e, Graph* graph){
  * @param graph the graph to compute the algorithm on
  * @return std::vector<Vertex*> the vertices to each connected component
  */
-vector<Vertex*> BFS(Graph* graph){
+vector<Vertex*> getConnectedComponents(Graph* graph){
     //This marks the current set of connected components
     int c = 0;
     //This keeps track of the start vertex for each connected component

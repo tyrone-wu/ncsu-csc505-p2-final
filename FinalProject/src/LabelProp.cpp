@@ -9,13 +9,12 @@
  */
 
 #include <vector>
-#include "omp.h"
-#include "../include/Graph.h"
-#include "../include/Vertex.h"
 #include <iostream>
 #include <map>
 #include <string>
 #include <string.h>
+#include "omp.h"
+#include "../include/GraphComponents.h"
 
 using namespace std;
 
@@ -33,7 +32,7 @@ Vertex* getOpposite(Vertex* v, Edge* e, Graph* graph){
  * @param graph the graph to compute the algorithm on
  * @return std::vector<Vertex*> the vertices to each connected component
  */
-vector<Vertex*> LabelProp(Graph* graph){
+vector<Vertex*> getConnectedComponents(Graph* graph){
     //This marks the current set of connected components
     int c = 0;
     //This keeps track of the start vertex for each connected component
