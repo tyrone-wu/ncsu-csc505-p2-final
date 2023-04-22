@@ -13,14 +13,13 @@
 #include "../include/Graph.h"
 #include "../include/Vertex.h"
 #include <iostream>
-
 using namespace std;
 
 //This just grabs the node opposite of vertex v through Edge e in Graph g
 Vertex* getOpposite(Vertex* v, Edge* e, Graph* graph){
     Vertex* r = graph->vertices[e->destination];
     if(r->id == v->id)
-        return graph->vertices[e->destination];
+        return graph->vertices[e->source];
     return r;
 }
 
@@ -88,7 +87,8 @@ vector<Vertex*> BFS(Graph* graph){
                     //Ensures that each thread takes turns with merging there discovered frontier together
                     #pragma omp critical
                     {
-                        next_frontier.insert(next_frontier.end(), local_frontier.begin(), local_frontier.end());
+                        if(local_frontier.size() > 0)
+                            next_frontier.insert(next_frontier.end(), local_frontier.begin(), local_frontier.end());
                     }
                 }
                 //The frontier is replaced with a new frontier
