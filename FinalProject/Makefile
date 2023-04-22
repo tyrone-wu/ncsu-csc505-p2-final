@@ -10,14 +10,18 @@ DAT_DIR=./data
 
 DEP=main.o Vertex.o Edge.o Graph.o Time.o
 DEP_ACT=$(BLD_DIR)/main.o $(BLD_DIR)/Vertex.o $(BLD_DIR)/Edge.o $(BLD_DIR)/Graph.o $(BLD_DIR)/Time.o 
-HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Edge.h $(INC_DIR)/Graph.h $(INC_DIR)/Time.h
+HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Edge.h $(INC_DIR)/Graph.h $(INC_DIR)/Time.h 
 
 COMPILE=$(CPP) $(CPPFLAGS)
 
-# Build MST executable
-main: $(DEP)
+# Build executable
+bfs-cc: $(DEP) BFS.o
 	@mkdir -p $(BIN_DIR)
-	$(COMPILE) $(DEP_ACT) -o $(BIN_DIR)/main
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/BFS.o -fopenmp -o $(BIN_DIR)/bfs-cc
+
+lp-cc: $(DEP) LabelProp.o
+	@mkdir -p $(BIN_DIR)
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/LabelProp.o -fopenmp -o $(BIN_DIR)/lp-cc
 
 # Compile lib
 %.o: $(LIB_DIR)/%.cpp $(HEADERS)
@@ -29,16 +33,21 @@ main: $(DEP)
 	@mkdir -p $(BLD_DIR)
 	$(COMPILE) -c $< -o $(BLD_DIR)/$@
 
-# # Test kruskal
-# test-kruskal: prep-script
-# 	@sed -i -e 's/\r$$//' ./scripts/test_mst.sh
-# 	@chmod +x ./scripts/test_mst.sh
-# 	./scripts/test_mst.sh kruskal 1
+# Tests
+test-bfs-cc:
+	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
+	@chmod +x ./scripts/test_cc.sh
+	./scripts/test_cc.sh bfs-cc
+
+test-lp-cc:
+	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
+	@chmod +x ./scripts/test_cc.sh
+	./scripts/test_cc.sh lp-cc
 
 # Removes carriage return and makes script executable
 prep-script:
-	@sed -i -e 's/\r$$//' ./run_mst.sh
-	@chmod +x ./run_mst.sh
+	@sed -i -e 's/\r$$//' ./run_cc.sh
+	@chmod +x ./run_cc.sh
 
 # Clean build
 clean:

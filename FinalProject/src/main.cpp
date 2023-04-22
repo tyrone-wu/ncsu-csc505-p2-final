@@ -44,14 +44,14 @@ int main(int argc, char* argv[]) {
     // Perform benchmark
     Timer timer;
     timer.start();
-    // vector<Vertex*> components = getConnectedComponents(graph);
+    vector<Vertex*> components = getConnectedComponents(graph);
     timer.stop();
 
-    // cout << components.size() << endl;
-    graph->printGraph();
+    // Print number of components to standard output
+    cout << components.size() << endl;
 
     // Print the benchmark to standard error
-    // cerr << "num components " << components.size() << endl;
+    cerr << "num components " << components.size() << endl;
     cerr << "runtime        " << fixed << setprecision(2) << timer.getTotalTime() << endl;
 
     return 0;
