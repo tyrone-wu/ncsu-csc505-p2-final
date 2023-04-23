@@ -11,8 +11,8 @@
 ### Compiling the program
 
 ```sh
-# example: make bfs-cc
-$ make [bfs-cc|lp-cc]
+# example: make bfs-p
+$ make [bfs-s|bfs-p|lp]
 
 # output: 
 # clang++ -std=c++20 -c src/main.cpp -o ./build/main.o
@@ -36,12 +36,12 @@ Run test cases:
 $ ./scripts
 
 # Execute test script
-# example: `make test-bfs-cc`
-$ make [test-bfs-cc|test-lp-cc]
+# example: `make test-bfs-p`
+$ make [test-bfs-s|test-bfs-p|test-lp]
 
 # output: 
 # ...
-# Running lp-cc on t2:
+# Running lp on t2:
 # Test case failed. ✅ :)
 # ...
 ```
