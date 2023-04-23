@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     // Perform benchmark
     Timer timer;
     timer.start();
-    vector<Vertex*> components = getConnectedComponents(graph);
+    vector<Vertex*> components = getConnectedComponents(*graph);
     timer.stop();
 
     // Print number of components to standard output

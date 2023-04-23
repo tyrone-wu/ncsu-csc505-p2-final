@@ -21,6 +21,6 @@
  * @param graph the graph to compute the algorithm on
  * @return std::vector<Vertex*> the vertices to each connected component
  */
-std::vector<Vertex*> getConnectedComponents(Graph* graph);
+std::vector<Vertex*> getConnectedComponents(Graph& graph);
 
 #endif // GRAPHCOMPONENTS_H

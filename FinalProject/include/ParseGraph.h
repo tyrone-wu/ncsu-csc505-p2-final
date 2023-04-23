@@ -39,12 +39,12 @@ void parseTokens(std::string &line, std::vector<std::string> &tokens) {
  * @param graph the graph to store in
  * @param line the line to parse
  */
-void parseGraph(Graph* graph, std::string &line) {
+void parseGraph(Graph& graph, std::string &line) {
     // Parse line into vector of tokens
     std::vector<std::string> tokens;
     parseTokens(line, tokens);
     
-    graph->addCapacity(stoi(tokens[1]), stoi(tokens[2]));
+    graph.addCapacity(stoi(tokens[1]), stoi(tokens[2]));
 }
 
 /**
@@ -54,12 +54,12 @@ void parseGraph(Graph* graph, std::string &line) {
  * @param line the line to parse
  * @param offset the offset of the new graph
  */
-void parseNode(Graph* graph, std::string &line, unsigned int offset) {
+void parseNode(Graph& graph, std::string &line, unsigned int offset) {
     // Parse line into vector of tokens
     std::vector<std::string> tokens;
     parseTokens(line, tokens);
 
-    graph->addVertex(stoi(tokens[1]) + offset);
+    graph.addVertex(stoi(tokens[1]) + offset);
 }
 
 /**
@@ -69,12 +69,12 @@ void parseNode(Graph* graph, std::string &line, unsigned int offset) {
  * @param line the line to parse
  * @param offset the offset of the new graph
  */
-void parseEdge(Graph* graph, std::string &line, unsigned int offset) {
+void parseEdge(Graph& graph, std::string &line, unsigned int offset) {
     // Parse line into vector of tokens
     std::vector<std::string> tokens;
     parseTokens(line, tokens);
 
-    graph->addEdge(stoi(tokens[1]) + offset, stoi(tokens[2]) + offset);
+    graph.addEdge(stoi(tokens[1]) + offset, stoi(tokens[2]) + offset);
 }
 
 #endif // PARSEGRAPH_H

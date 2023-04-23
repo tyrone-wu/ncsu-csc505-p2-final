@@ -95,13 +95,13 @@ void Graph::readFile(Graph* graph, std::string filePath) {
     while (std::getline(infile, line)) {
         switch(line[0]) {
             case 'g':
-                parseGraph(graph, line);
+                parseGraph(*graph, line);
                 break;
             case 'n':
-                parseNode(graph, line, offset - 1);
+                parseNode(*graph, line, offset - 1);
                 break;
             case 'e':
-                parseEdge(graph, line, offset - 1);
+                parseEdge(*graph, line, offset - 1);
                 break;
             default:
                 continue;
