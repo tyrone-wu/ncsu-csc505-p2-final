@@ -1,0 +1,29 @@
+P2 Feedback for Group DEF
+
+1ST ALGO - primLazy:
+-Test Cases
+
+All passed
+
+-Growth rate looks okay
+
+
+2ND ALGO - prim:
+-Test Cases
+
+All passed
+
+-Growth rate looks okay
+
+
+3RD ALGO - kruskal:
+-Test Cases
+
+All passed
+
+-Growth rate looks okay
+
+Code:
+Okay
+
+
