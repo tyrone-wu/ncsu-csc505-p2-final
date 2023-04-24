@@ -39,6 +39,9 @@ lp: $(DEP) LabelProp.o
 
 # Tests
 gen-test:
+	@sed -i -e 's/\r$$//' ./data/generate/generate.sh
+	@chmod +x ./data/generate/generate.sh
+
 	@sed -i -e 's/\r$$//' ./scripts/generate_test.sh
 	@chmod +x ./scripts/generate_test.sh
 	./scripts/generate_test.sh
