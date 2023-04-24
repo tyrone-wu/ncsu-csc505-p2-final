@@ -25,6 +25,7 @@ do
     ./bin/"$1" "$path"/input 1> "$path"/"$1"/actual.out 2> "$path"/"$1"/actual.err
 
     # Compare actual and expected
+    cat "$path"/"$1"/actual.err
     if cmp --silent -- "$path"/"$1"/actual.out "$path"/expected.out
     then
         echo "Test case passed. ✅ :)"

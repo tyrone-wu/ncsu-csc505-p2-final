@@ -16,8 +16,8 @@ touch $TEST_DIR/t1/expected.out
 echo "${#T1_N[@]}" > $TEST_DIR/t1/expected.out
 
 # t2 params
-T2_N=( 10 200 50 1000 3 )
-T2_E=( 9 600 1225 10000 3 )
+T2_N=( 10000 100000 100000 )
+T2_E=( 49995000 1000000 10000000 )
 # Generate t2
 mkdir -p $TEST_DIR/t2/input
 for i in "${!T2_N[@]}"

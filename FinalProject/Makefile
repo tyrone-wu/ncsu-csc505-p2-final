@@ -1,5 +1,5 @@
 CPP=clang++
-CPPFLAGS=-std=c++20
+CPPFLAGS=-std=c++20 -fopenmp
 
 BIN_DIR=./bin
 BLD_DIR=./build
@@ -21,11 +21,11 @@ bfs-s: $(DEP) BFSSequential.o
 
 bfs-p: $(DEP) BFSParallel.o
 	@mkdir -p $(BIN_DIR)
-	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/BFSParallel.o -fopenmp -o $(BIN_DIR)/bfs-p
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/BFSParallel.o -o $(BIN_DIR)/bfs-p
 
 lp: $(DEP) LabelProp.o
 	@mkdir -p $(BIN_DIR)
-	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/LabelProp.o -fopenmp -o $(BIN_DIR)/lp
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/LabelProp.o -o $(BIN_DIR)/lp
 
 # Compile lib
 %.o: $(LIB_DIR)/%.cpp $(HEADERS)
