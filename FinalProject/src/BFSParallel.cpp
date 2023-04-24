@@ -38,28 +38,30 @@ void parallelBFS(Graph& graph, unsigned int src, std::vector<int>& levels, unsig
 
         // Traverse frontier together
         #pragma omp parallel for num_threads(threads)
-        for (int i = 0; i < frontier.size(); i++) {
+        {
+            for (int i = omp_get_thread_num(); i < frontier.size(); i+=omp_get_num_threads()) {
 
-            // Iterate neighbors of vertex
-            for (Edge* e : graph.vertices[frontier[i]]->incidentEdges) {
+                // Iterate neighbors of vertex
+                for (Edge* e : graph.vertices[frontier[i]]->incidentEdges) {
 
-                // Check if vertex has been visited before
-                unsigned int vOpp = getOpposite(frontier[i], *e, graph);
-                if (levels[vOpp] == -1) {
+                    // Check if vertex has been visited before
+                    unsigned int vOpp = getOpposite(frontier[i], *e, graph);
+                    if (levels[vOpp] == -1) {
 
-                    // Ensures that only one threads obtains the -1 value at that level
-                    int insert;
-                    #pragma omp atomic capture
-                    {
-                        // Add unexplored neighbors to new frontier
-                        insert = levels[vOpp];
-                        levels[vOpp] = currentLevel + 1;
-                    }
+                        // Ensures that only one threads obtains the -1 value at that level
+                        int insert;
+                        #pragma omp atomic capture
+                        {
+                            // Add unexplored neighbors to new frontier
+                            insert = levels[vOpp];
+                            levels[vOpp] = currentLevel + 1;
+                        }
 
-                    // The thread that got -1 will add the unexplored vertex to new frontier
-                    if (insert == -1) {
-                        int threadID = omp_get_thread_num();
-                        nextFrontiers[threadID].push_back(vOpp);
+                        // The thread that got -1 will add the unexplored vertex to new frontier
+                        if (insert == -1) {
+                            int threadID = omp_get_thread_num();
+                            nextFrontiers[threadID].push_back(vOpp);
+                        }
                     }
                 }
             }
