@@ -1,5 +1,5 @@
 CPP=clang++
-CPPFLAGS=-std=c++20 -fopenmp
+CPPFLAGS=-std=c++20
 
 BIN_DIR=./bin
 BLD_DIR=./build
@@ -21,7 +21,7 @@ bfs-s: $(DEP) BFSSequential.o
 
 bfs-p: $(DEP) BFSParallel.o
 	@mkdir -p $(BIN_DIR)
-	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/BFSParallel.o -o $(BIN_DIR)/bfs-p
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/BFSParallel.o -fopenmp -o $(BIN_DIR)/bfs-p
 
 lp: $(DEP) LabelProp.o
 	@mkdir -p $(BIN_DIR)
@@ -31,6 +31,10 @@ lp: $(DEP) LabelProp.o
 %.o: $(LIB_DIR)/%.cpp $(HEADERS)
 	@mkdir -p $(BLD_DIR)
 	$(COMPILE) -c $< -o $(BLD_DIR)/$@
+
+# Compile src with parallel flags
+BFSParallel.o: $(SRC_DIR)/BFSParallel.cpp $(HEADERS)
+	$(COMPILE) -c $< -fopenmp -o $(BLD_DIR)/$@
 
 # Compile src
 %.o: $(SRC_DIR)/%.cpp $(HEADERS)
