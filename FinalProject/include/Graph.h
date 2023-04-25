@@ -65,6 +65,12 @@ public:
      * @param filePath the gph file to read
      */
     void readFile(Graph* graph, std::string filePath);
+
+    /**
+     * @brief Frees the memory of the graph.
+     * 
+     */
+    void freeMemory();
 };
 
 #endif // GRAPH_H

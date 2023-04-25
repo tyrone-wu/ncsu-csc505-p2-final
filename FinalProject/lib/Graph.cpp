@@ -110,3 +110,22 @@ void Graph::readFile(Graph* graph, std::string filePath) {
 
     infile.close();
 }
+
+/**
+ * @brief Frees the memory of the graph.
+ * 
+ */
+void Graph::freeMemory() {
+    // Free edges
+    for (Edge* e : this->edges) {
+        delete e;
+    }
+    this->edges.clear();
+
+    // Free vertices
+    for (Vertex* v : this->vertices) {
+        v->incidentEdges.clear();
+        delete v;
+    }
+    this->vertices.clear();
+}

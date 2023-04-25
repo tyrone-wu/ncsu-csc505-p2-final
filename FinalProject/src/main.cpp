@@ -35,16 +35,16 @@ int main(int argc, char* argv[]) {
     string path = argv[1];
 
     // The graph data structure
-    Graph* graph = new Graph();
+    Graph graph;
     // Parse files into graph
     for (const auto& entry : std::filesystem::directory_iterator(path)) {
-        graph->readFile(graph, entry.path().string());
+        graph.readFile(&graph, entry.path().string());
     }
 
     // Perform benchmark
     Timer timer;
     timer.start();
-    vector<Vertex*> components = getConnectedComponents(*graph);
+    vector<Vertex*> components = getConnectedComponents(graph);
     timer.stop();
 
     // Print number of components to standard output
@@ -53,6 +53,9 @@ int main(int argc, char* argv[]) {
     // Print the benchmark to standard error
     cerr << "num components " << components.size() << endl;
     cerr << "runtime        " << fixed << setprecision(2) << timer.getTotalTime() << endl;
+
+    // Free memory
+    graph.freeMemory();
 
     return 0;
 }
