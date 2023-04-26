@@ -14,12 +14,6 @@
 #include "../include/Graph.h"
 
 /**
- * @brief Construct an empty graph.
- * 
- */
-Graph::Graph() {}
-
-/**
  * @brief Construct an empty graph with the given capacities.
  * 
  * @param numVerticies the number of vertices to expect
@@ -53,10 +47,9 @@ void Graph::addEdge(unsigned int source, unsigned int destination) {
     Vertex* srcVertex = this->addVertex(source);
     Vertex* dstVertex = this->addVertex(destination);
 
-    Edge* edge = new Edge(source, destination);
-    srcVertex->addEdge(edge);
-    dstVertex->addEdge(edge);
-    this->edges.push_back(edge);
+    srcVertex->addEdge(source, destination);
+    dstVertex->addEdge(source, destination);
+    this->edges.push_back(new Edge(source, destination));
 }
 
 /**
@@ -67,8 +60,8 @@ void Graph::printGraph() {
     // Prints the vertices
     for (Vertex* v : this->vertices) {
         std::cout << "v " << (v->id + 1) << std::endl;
-        for (Edge* e : v->incidentEdges) {
-            e->printEdge();
+        for (unsigned int toIdx : v->incidentEdges) {
+            std::cout << "e " << v->id << " " << toIdx << std::endl;
         }
         std::cout << std::endl;
     }

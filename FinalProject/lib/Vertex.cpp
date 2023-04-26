@@ -16,7 +16,6 @@
  */
 Vertex::Vertex(unsigned int id) {
     this->id = id;
-    this->label = std::to_string(id);
 }
 
 /**
@@ -26,15 +25,10 @@ Vertex::Vertex(unsigned int id) {
  * @param destination the destination vertex index
  * @param weight the edge weight
  */
-void Vertex::addEdge(unsigned int source, unsigned int destination, int weight) {
-    this->incidentEdges.push_back(new Edge(source, destination));
-}
-
-/**
- * @brief Adds an incident edge to the vertex.
- * 
- * @param edge the edge to add
- */
-void Vertex::addEdge(Edge* edge) {
-    this->incidentEdges.push_back(edge);
+void Vertex::addEdge(unsigned int source, unsigned int destination) {
+    if (this->id == source) {
+        this->incidentEdges.push_back(destination);
+    } else {
+        this->incidentEdges.push_back(source);
+    }
 }

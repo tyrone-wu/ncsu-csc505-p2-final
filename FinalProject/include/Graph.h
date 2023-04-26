@@ -23,12 +23,6 @@ public:
     std::vector<Edge*> edges;
 
     /**
-     * @brief Construct an empty graph
-     * 
-     */
-    Graph();
-
-    /**
      * @brief Construct a new add Capacity object
      * 
      * @param numVerticies the number of vertices to expect

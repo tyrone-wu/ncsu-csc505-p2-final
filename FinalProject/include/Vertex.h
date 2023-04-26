@@ -19,11 +19,8 @@ public:
 
     // The vertex unique ID
     unsigned int id;
-    // List of incident edges
-    std::vector<Edge*> incidentEdges;
-    // Used to mark a vertex
-    int mark = -1;
-    std::string label;
+    // List of incident edges which are indices to the vertex
+    std::vector<unsigned int> incidentEdges;
 
     /**
      * @brief Construct a new Vertex object with the given data.
@@ -39,16 +36,8 @@ public:
      * 
      * @param source the source vertex index
      * @param destination the destination vertex index
-     * @param weight the edge weight
      */
-    void addEdge(unsigned int source, unsigned int destination, int weight);
-
-    /**
-     * @brief Adds an incident edge to the vertex.
-     * 
-     * @param edge the edge to add
-     */
-    void addEdge(Edge* edge);
+    void addEdge(unsigned int source, unsigned int destination);
 };
 
 #endif // VERTEX_H
