@@ -296,3 +296,319 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
         #pragma omp barrier
     }
 }
+
+// Performs parallel BFS
+void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, std::vector<int>& levels, unsigned int threads) {
+    // Initialize current level
+    levels[src] = 0;
+    int currentLevel = 0;
+
+    // Set of vertices at the current level
+    std::vector<unsigned int> frontier;
+    frontier.push_back(src);
+    // Track next offset to pick up from
+    unsigned int offset = 0;
+
+    // Process current frontier
+    #pragma omp parallel num_threads(12)
+    while (!frontier.empty()) {
+
+        // Each thread maintains their own local next frontier
+        std::vector<unsigned int> localNextFrontier;
+        localNextFrontier.reserve(frontier.size());
+
+        // Divide frontier exploration among threads
+        #pragma omp for
+        for (int i = 0; i < frontier.size(); i++) {
+
+            // Index of the vertex frontier
+            unsigned int frontierVertex = frontier[i];
+            // Get incident edges of frontier vertex
+            std::vector<unsigned int> incidentEdges = vertices[frontierVertex]->incidentEdges;
+
+            // Iterate neighbors of vertex
+            for (unsigned int toIdx : incidentEdges) {
+                // Check if vertex has been visited before
+                if (levels[toIdx] == -1) {
+
+                    // Ensures that only one threads obtains the -1 value at that level
+                    int insert;
+                    #pragma omp atomic capture
+                    {
+                        // Add unexplored neighbors to new frontier
+                        insert = levels[toIdx];
+                        levels[toIdx] = currentLevel + 1;
+                    }
+
+                    // The thread that got -1 will add the unexplored vertex to new frontier
+                    if (insert == -1) {
+                        localNextFrontier.push_back(toIdx);
+                    }
+                }
+            }
+        }
+
+        // Get index offset of where to writing
+        unsigned int localOffset;
+        #pragma omp atomic capture
+        {
+            localOffset = offset;
+            offset += localNextFrontier.size();
+        }
+        
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+
+        // Only single thread update global variables
+        #pragma omp single
+        {
+            frontier.resize(offset);
+            offset = 0;
+            currentLevel++;
+        }
+
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+
+        // Each thread write their own local next frontier
+        for (int i = 0; i < localNextFrontier.size(); i++) {
+            frontier[i + localOffset] = localNextFrontier[i];
+        }
+
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+    }
+}
+
+results with above:
+1 thread
+🧪 Running bfs-p on t1:
+num components 2
+runtime        0.00
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t2:
+num components 5
+runtime        3.37
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t3:
+num components 10
+runtime        0.00
+Test case passed. ✅ :)
+
+12 threads:
+🧪 Running bfs-p on t1:
+num components 2
+runtime        0.05
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t2:
+num components 5
+runtime        6.40
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t3:
+num components 10
+runtime        0.08
+Test case passed. ✅ :)
+
+// Performs parallel BFS
+void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, std::vector<bool>& visited, unsigned int threads) {
+    // Set start vertex to visited
+    visited[src] = true;
+    // Set of vertices at the current level
+    std::vector<unsigned int> frontier;
+    frontier.push_back(src);
+    // Track next offset to pick up from
+    unsigned int offset = 0;
+
+    // Process current frontier
+    #pragma omp parallel num_threads(12)
+    while (!frontier.empty()) {
+
+        // Each thread maintains their own local next frontier
+        std::vector<unsigned int> localNextFrontier;
+        localNextFrontier.reserve(frontier.size());
+
+        // Divide frontier exploration among threads
+        #pragma omp for
+        for (int i = 0; i < frontier.size(); i++) {
+
+            // Index of the vertex frontier
+            unsigned int frontierVertex = frontier[i];
+            // Get incident edges of frontier vertex
+            std::vector<unsigned int> incidentEdges = vertices[frontierVertex]->incidentEdges;
+
+            // Iterate neighbors of vertex
+            for (unsigned int toIdx : incidentEdges) {
+
+                // Check if vertex has been visited before
+                if (!visited[toIdx]) {
+                    // Mark vertex as visited
+                    visited[toIdx] = true;
+                    // The thread that got -1 will add the unexplored vertex to new frontier
+                    localNextFrontier.push_back(toIdx);
+                }
+            }
+        }
+
+        // Get index offset of where to writing
+        unsigned int localOffset;
+        #pragma omp atomic capture
+        {
+            localOffset = offset;
+            offset += localNextFrontier.size();
+        }
+        
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+
+        // Only single thread update global variables
+        #pragma omp single
+        {
+            frontier.resize(offset);
+            offset = 0;
+        }
+
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+
+        // Each thread write their own local next frontier
+        for (int i = 0; i < localNextFrontier.size(); i++) {
+            frontier[i + localOffset] = localNextFrontier[i];
+        }
+
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+    }
+}
+
+results with above:
+1 thread:
+🧪 Running bfs-p on t1:
+num components 2
+runtime        0.00
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t2:
+num components 5
+runtime        7.58
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t3:
+num components 10
+runtime        0.00
+Test case passed. ✅ :)
+
+12 threads;
+🧪 Running bfs-p on t1:
+num components 2
+runtime        0.03
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t2:
+num components 5
+runtime        13.55
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t3:
+num components 10
+runtime        0.23
+Test case passed. ✅ :)
+
+2 threads
+🧪 Running bfs-p on t1:
+num components 2
+runtime        0.00
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t2:
+num components 5
+runtime        8.14
+Test case passed. ✅ :)
+
+🧪 Running bfs-p on t3:
+num components 10
+runtime        0.00
+Test case passed. ✅ :)
+
+// Performs parallel BFS
+void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, std::vector<bool>& visited, unsigned int threads) {
+    // Set start vertex to visited
+    visited[src] = true;
+    // Set of vertices at the current level
+    std::vector<unsigned int> frontier;
+    frontier.push_back(src);
+    // Track next offset to pick up from
+    unsigned int offset = 0;
+
+    // Process current frontier
+    #pragma omp parallel num_threads(threads)
+    while (!frontier.empty()) {
+
+        // Each thread maintains their own local next frontier
+        std::vector<unsigned int> localNextFrontier;
+        localNextFrontier.reserve(frontier.size());
+        // Each thread maintains local visited
+        std::vector<bool> localVisited = visited;
+
+        // Divide frontier exploration among threads
+        #pragma omp for
+        for (int i = 0; i < frontier.size(); i++) {
+
+            // Index of the vertex frontier
+            unsigned int frontierVertex = frontier[i];
+            // Get incident edges of frontier vertex
+            std::vector<unsigned int> incidentEdges = vertices[frontierVertex]->incidentEdges;
+
+            // Iterate neighbors of vertex
+            for (unsigned int toIdx : incidentEdges) {
+
+                // Check if vertex has been visited before
+                if (!localVisited[toIdx]) {
+                    // Mark vertex as visited
+                    localVisited[toIdx] = true;
+                    // The thread that got -1 will add the unexplored vertex to new frontier
+                    localNextFrontier.push_back(toIdx);
+                }
+            }
+        }
+
+        // Get index offset of where to writing
+        unsigned int localOffset;
+        #pragma omp atomic capture
+        {
+            localOffset = offset;
+            offset += localNextFrontier.size();
+        }
+
+        #pragma omp critical
+        {
+            for (int i = 0; i < visited.size(); i ++) {
+                visited[i] = visited[i] || localVisited[i];
+            }
+        }
+
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+
+        // Only single thread update global variables
+        #pragma omp single
+        {
+            frontier.resize(offset);
+            offset = 0;
+        }
+
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+
+        // Each thread write their own local next frontier
+        for (int i = 0; i < localNextFrontier.size(); i++) {
+            frontier[i + localOffset] = localNextFrontier[i];
+        }
+
+        // Wait for all threads to reach this point
+        #pragma omp barrier
+    }
+}

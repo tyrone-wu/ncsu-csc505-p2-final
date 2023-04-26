@@ -13,14 +13,6 @@
 #include <omp.h>
 #include "../include/GraphComponents.h"
 
-// This just grabs the node opposite of vertex v through Edge e in Graph g
-unsigned int getOpposite(unsigned int vIdx, Edge& e, const std::vector<Vertex*>& vertices) {
-    unsigned int dIdx = vertices[e.destination]->id;
-    if (vIdx == dIdx)
-        return vertices[e.source]->id;
-    return dIdx;
-}
-
 // Performs parallel BFS
 void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, std::vector<int>& levels, unsigned int threads) {
     // Initialize current level
@@ -34,8 +26,7 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
     unsigned int offset = 0;
 
     // Process current frontier
-    omp_set_num_threads(threads);
-    #pragma omp parallel
+    #pragma omp parallel num_threads(threads)
     while (!frontier.empty()) {
 
         // Each thread maintains their own local next frontier
@@ -49,27 +40,25 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
             // Index of the vertex frontier
             unsigned int frontierVertex = frontier[i];
             // Get incident edges of frontier vertex
-            std::vector<Edge*> incidentEdges = vertices[frontierVertex]->incidentEdges;
+            std::vector<unsigned int> incidentEdges = vertices[frontierVertex]->incidentEdges;
 
             // Iterate neighbors of vertex
-            for (Edge* e : incidentEdges) {
-
+            for (unsigned int toIdx : incidentEdges) {
                 // Check if vertex has been visited before
-                unsigned int vOpp = getOpposite(frontierVertex, *e, vertices);
-                if (levels[vOpp] == -1) {
+                if (levels[toIdx] == -1) {
 
                     // Ensures that only one threads obtains the -1 value at that level
                     int insert;
                     #pragma omp atomic capture
                     {
                         // Add unexplored neighbors to new frontier
-                        insert = levels[vOpp];
-                        levels[vOpp] = currentLevel + 1;
+                        insert = levels[toIdx];
+                        levels[toIdx] = currentLevel + 1;
                     }
 
                     // The thread that got -1 will add the unexplored vertex to new frontier
                     if (insert == -1) {
-                        localNextFrontier.push_back(vOpp);
+                        localNextFrontier.push_back(toIdx);
                     }
                 }
             }
@@ -118,6 +107,7 @@ std::vector<Vertex*> getConnectedComponents(Graph& graph) {
     std::vector<Vertex*> connectedComponentsList;
     // Initialize levels vector, which also acts as a visited vector
     std::vector<int> levels(graph.vertices.size(), -1);
+
     // Get max threads
     const unsigned int maxThreads = omp_get_max_threads();
 
