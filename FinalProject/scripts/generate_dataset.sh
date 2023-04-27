@@ -5,36 +5,71 @@ GEN_CMD="./data/generate/generate.sh rn"
 # Where to write dataset to
 DATA_DIR=./data/experiment/input
 
-# Seeds of dataset
-SEEDS=( 1 2 3 4 5 )
+# Components
+COMPONENTS=( 1 3 6 )
+# Vertices
+VERTICES=( 1020 10200 102000 )
+# Number of batches
+BATCHES=4
 
-# Starting number of vertices
-S_V=1000
-# Ending number of vertices
-E_V=10000
+# Max edges that can be generated from the script, 800,000,000
+capacity=800000000
 
 # Iterate number of vertices
-for (( V = $S_V; V <= $E_V; V *= 10 ))
+for total_v in "${VERTICES[@]}"
 do
-    # Increment edges 10 times from 3 * vertices to max
-    e_start=$(( 3 * $V ))
-    e_end=$(( ($V * ($V - 1)) / 2 ))
+    echo "total vertices $total_v"
 
-    increment=$(( ($e_end - $e_start) / 10 ))
+    for comps in "${COMPONENTS[@]}"
+    do 
+        v=$(( total_v / comps ))
+        echo "components $comps"
 
-    # Iterate number of edges
-    for (( E = $e_start; E <= $e_end; E += increment ))
-    do
-        # Create dir if not exist
-        mkdir -p $DATA_DIR/V-$V/E-$E
+        # Edges
+        EDGES=()
 
-        # Iterate seeds
-        for seed in "${SEEDS[@]}"
+        min=$(( v - 1 ))
+        max=$(( v * (v - 1) / 20 ))
+        max=$(( max > capacity ? capacity : max ))
+
+        # Calculate edges for each vertex size
+        # Minimum
+        EDGES+=( $min )
+        # Sparse
+        EDGES+=( $(( v * 3 )) )
+        # Kinda sparse
+        EDGES+=( $(( v * 9 )) )
+        # Kinda sparse
+        EDGES+=( $(( v * 27 )) )
+        # Kinda sparse
+        EDGES+=( $(( v * 81 )) )
+        # Dense
+        EDGES+=( $max )
+
+        # Iterate edges
+        for e in "${EDGES[@]}"
         do
-            $GEN_CMD $V $E $seed $DATA_DIR/V-$V/E-$E $V
+            echo "edges $e"
+
+            # Iterating components to generate
+            for (( c = 0; c < comps; c++ ))
+            do
+                for (( b = 1; b <= BATCHES; b++ ))
+                do
+                    mkdir -p $DATA_DIR/v-"$total_v"/c-"$comps"/e-"$e"/b-"$b"
+
+                    # Gen data
+                    seed=$(( c * BATCHES + b ))
+                    $GEN_CMD $v "$e" $seed $DATA_DIR/v-"$total_v"/c-"$comps"/e-"$e"/b-"$b" 1
+
+                    # echo "$GEN_CMD $v $e $seed $DATA_DIR/v-$total_v/c-$comps/e-$e/b-$b 1"
+                    # touch $DATA_DIR/v-"$total_v"/c-"$comps"/e-"$e"/b-"$b"/s-$seed.txt
+                done
+            done
         done
+
+        echo 
     done
-    echo
 done
 
 echo "Finished generating dataset."
