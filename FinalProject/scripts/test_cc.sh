@@ -22,7 +22,7 @@ do
     echo
     echo "🧪 Running $1 on $dir:"
     # Run and record algo on input
-    ./bin/"$1" "$path"/input 1> "$path"/"$1"/actual.out 2> "$path"/"$1"/actual.err
+    ./bin/"$1" "$path"/input "$2" 1> "$path"/"$1"/actual.out 2> "$path"/"$1"/actual.err
 
     # Compare actual and expected
     cat "$path"/"$1"/actual.err

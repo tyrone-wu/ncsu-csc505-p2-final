@@ -12,7 +12,7 @@
 
 ```sh
 # example: make bfs-p
-$ make [bfs-s|bfs-p|lp]
+$ make [bfs-p|lp]
 
 # output: 
 # clang++ -std=c++20 -c src/main.cpp -o ./build/main.o
@@ -32,12 +32,12 @@ $ chmod +x run_mst.sh
 
 Run test cases:  
 ```sh
-# Generate test data
-$ ./scripts
+# Generate test data; only needs to be done once
+$ make gen-test
 
 # Execute test script
 # example: `make test-bfs-p`
-$ make [test-bfs-s|test-bfs-p|test-lp]
+$ make [test-bfs-p|test-lp]
 
 # output: 
 # ...

@@ -58,7 +58,7 @@ test-bfs-s:
 test-bfs-p:
 	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
 	@chmod +x ./scripts/test_cc.sh
-	./scripts/test_cc.sh bfs-p
+	./scripts/test_cc.sh bfs-p 2
 
 test-lp:
 	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
