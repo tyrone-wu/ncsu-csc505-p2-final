@@ -25,7 +25,7 @@ bfs-p: $(DEP) BFSParallel.o
 
 lp: $(DEP) LabelProp.o
 	@mkdir -p $(BIN_DIR)
-	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/LabelProp.o -o $(BIN_DIR)/lp
+	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/LabelProp.o -fopenmp -o $(BIN_DIR)/lp
 
 # Compile lib
 %.o: $(LIB_DIR)/%.cpp $(HEADERS)
@@ -34,6 +34,9 @@ lp: $(DEP) LabelProp.o
 
 # Compile src with parallel flags
 BFSParallel.o: $(SRC_DIR)/BFSParallel.cpp $(HEADERS)
+	$(COMPILE) -c $< -fopenmp -o $(BLD_DIR)/$@
+
+LabelProp.o: $(SRC_DIR)/LabelProp.cpp $(HEADERS)
 	$(COMPILE) -c $< -fopenmp -o $(BLD_DIR)/$@
 
 # Compile src
