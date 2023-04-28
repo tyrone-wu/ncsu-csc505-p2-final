@@ -14,7 +14,7 @@
 #include "../include/GraphComponents.h"
 
 // Performs parallel BFS
-void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, std::vector<int>& levels, unsigned int threads) {
+void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, std::vector<int>& levels, const unsigned int threads) {
     // Initialize current level
     levels[src] = 0;
     int currentLevel = 0;
@@ -100,23 +100,21 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
  * @brief Gets the connected components of the graph
  * 
  * @param graph the graph to compute the algorithm on
+ * @param threads number of threads to utilize
  * @return std::vector<Vertex*> the vertices to each connected component
  */
-std::vector<Vertex*> getConnectedComponents(Graph& graph) {
+std::vector<Vertex*> getConnectedComponents(Graph& graph, const unsigned int threads) {
     //This keeps track of the start vertex for each connected component
     std::vector<Vertex*> connectedComponentsList;
     // Initialize levels vector, which also acts as a visited vector
     std::vector<int> levels(graph.vertices.size(), -1);
-
-    // Get max threads
-    const unsigned int maxThreads = omp_get_max_threads();
 
     // Iterate vertices of graph
     for (int i = 0; i < graph.vertices.size(); i++) {
         // Explore vertex if not visited
         if (levels[i] == -1) {
             // Traverse vertex until no more and add to components list
-            parallelBFS(graph.vertices, i, levels, maxThreads);
+            parallelBFS(graph.vertices, i, levels, threads);
             connectedComponentsList.push_back(graph.vertices[i]);
         }
     }

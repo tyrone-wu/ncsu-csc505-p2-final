@@ -19,8 +19,9 @@
  * @brief Gets the connected components of the graph
  * 
  * @param graph the graph to compute the algorithm on
+ * @param threads number of threads to utilize
  * @return std::vector<Vertex*> the vertices to each connected component
  */
-std::vector<Vertex*> getConnectedComponents(Graph& graph);
+std::vector<Vertex*> getConnectedComponents(Graph& graph, const unsigned int threads);
 
 #endif // GRAPHCOMPONENTS_H

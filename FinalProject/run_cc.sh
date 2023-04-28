@@ -3,16 +3,16 @@
 function error_exit() {
     echo "error: $1"
     echo 
-    echo "usage:   ./run_cc.sh [bfs-s|bfs-p|lp] [directory]"
+    echo "usage:   ./run_cc.sh [bfs-p|lp] [directory] [threads]"
     echo
     echo "Performs a benchmark using the specified connected components algorithm on the directory of gph files"
     echo 
     echo "arguments:"
-    echo "  [bfs-s|bfs-p|lp]    MST algorithm to use"
-    echo "    - bfs-s               Sequential BFS"
-    echo "    - bfs-p               Parallel BFS"
-    echo "    - lp                  Parallel Label Propagation"
-    echo "  directory           The directory of where the .gph files are located."
+    echo "  [bfs-p|lp]    CC algorithm to use"
+    echo "    - bfs-p       Parallel BFS"
+    echo "    - lp          Parallel Label Propagation"
+    echo "  directory     The directory of where the .gph files are located."
+    echo "  threads       Number of threads to utilize"
     echo 
     echo "example: ./run_cc.sh ./data/test/t1/input/ "
     exit 1
@@ -33,4 +33,4 @@ then
 fi
 
 # Execute CC program
-./bin/"$1" "$2"
+./bin/"$1" "$2" "$3"

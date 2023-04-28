@@ -26,13 +26,14 @@ using namespace std;
  */
 int main(int argc, char* argv[]) {
     // Exit error if no arguments passed
-    if (argc != 2) {
+    if (argc != 3) {
         cerr << "Invalid arguments" << endl;
         return 1;
     }
 
     // Path to graph file
     string path = argv[1];
+    const unsigned int threads = stoi(argv[2]);
 
     // The graph data structure
     Graph graph;
@@ -44,7 +45,7 @@ int main(int argc, char* argv[]) {
     // Perform benchmark
     Timer timer;
     timer.start();
-    vector<Vertex*> components = getConnectedComponents(graph);
+    vector<Vertex*> components = getConnectedComponents(graph, threads);
     timer.stop();
 
     // Print number of components to standard output
@@ -52,6 +53,7 @@ int main(int argc, char* argv[]) {
 
     // Print the benchmark to standard error
     cerr << "num components " << components.size() << endl;
+    cerr << "threads        " << threads << endl;
     cerr << "runtime        " << fixed << setprecision(2) << timer.getTotalTime() << endl;
 
     // Free memory
