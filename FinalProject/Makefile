@@ -66,7 +66,7 @@ test-bfs-p:
 test-lp:
 	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
 	@chmod +x ./scripts/test_cc.sh
-	./scripts/test_cc.sh lp
+	./scripts/test_cc.sh lp 1
 
 # Removes carriage return and makes script executable
 prep-script:

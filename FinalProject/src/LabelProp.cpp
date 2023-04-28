@@ -31,7 +31,6 @@ Vertex* getOpposite(Vertex& v, Edge& e, Graph& graph){
 
 std::vector<int> fillUnique(int length, int min, int max)
 {
-    std::cout << "Length: " << length << " Min: " << min << " Max: " << max << std::endl;
     std::vector<int> ret = std::vector<int>();
     ret.resize(length);
 
@@ -64,7 +63,7 @@ std::vector<int> fillUnique(int length, int min, int max)
  * @param graph the graph to compute the algorithm on
  * @return std::vector<Vertex*> the vertices to each connected component
  */
-vector<Vertex*> getConnectedComponents(Graph& graph){
+vector<Vertex*> getConnectedComponents(Graph& graph, const unsigned int threads){
     // This marks the current set of connected components
     int c = 0;
     // This keeps track of the start vertex for each connected component
@@ -83,21 +82,24 @@ vector<Vertex*> getConnectedComponents(Graph& graph){
         std::vector<int> randomizedVertices = fillUnique(graph.vertices.size(), 0, graph.vertices.at(graph.vertices.size() - 1)->id);
         for (int i = 0; i < randomizedVertices.size(); i++) {
             Vertex* v = graph.vertices[randomizedVertices.at(i)];
-            std::cout << "ID of the current Vertex: " << v->id << std::endl;
+            // std::cout << "ID of the current Vertex: " << v->id << std::endl;
             // std::cout << "Label of the vertex: " << v->label << std::endl;
             std::map<int, int> counter;
             // vector<Edge*> incidentEdges = v->incidentEdges;
 
             //Here we are seeing what all the neighbors are labled as
             for (int edge = 0; edge < v->incidentEdges.size(); edge++) {
+                int edgePointer = v->incidentEdges[edge];
+                // cout << "Current edge: " << randomizedVertices.at(i) << " to " << edgePointer << endl;
                 // int oppositeVertex = graph.edges[edge].;
-                counter[getOpposite(*v, *graph.edges[edge], graph)->label]++;
+                Vertex* x = graph.vertices.at(edgePointer);
+                counter[x->label]++;
             }
 
             //Here we see what the which lable appears the most
             std::map<int,int>::iterator max = counter.begin();
             for (std::map<int,int>::iterator it = ++(counter.begin()); it != counter.end(); ++it) {
-                std::cout << "Current max: " << max->first << " Check against: " << it->first << " " << it->second << std::endl;
+                // std::cout << "Current max: " << max->first << " " << max->second << " Check against: " << it->first << " " << it->second << std::endl;
                 if (it->second > max->second)
                     max = it;
                 // If we have the same amount of two labels, the smaller label value is chosen
@@ -111,7 +113,7 @@ vector<Vertex*> getConnectedComponents(Graph& graph){
             }
 
             // We update the label if it does not match the majority of its neighbors
-            if (v->label == max->first) {
+            if (v->label != max->first) {
                 change = true;
                 v->label = max->first;
             }
@@ -119,18 +121,19 @@ vector<Vertex*> getConnectedComponents(Graph& graph){
         maxIterations--;
         if (maxIterations == 0)
         {
+            // std::cout << "Max number of iterations reached" << std::endl;
             change = false;
         }
     } while (change);
 
-    std::cout << "Finished the vertex updating" << std::endl;
+    // std::cout << "Finished the vertex updating" << std::endl;
 
     //Now we collect the unique labels as those make up our connected components list
     connectedComponentsList.push_back(graph.vertices[0]);
-    std::cout << graph.vertices[0]->label << std::endl;
+    // std::cout << graph.vertices[0]->label << std::endl;
     for (int i = 1; i < graph.vertices.size(); i++) {
         int label = graph.vertices[i]->label;
-        std::cout << "Label of the Vertex: " << label << " Vertex ID: " << graph.vertices[i]->id << std::endl;
+        // std::cout << "Label of the Vertex: " << label << " Vertex ID: " << graph.vertices[i]->id << std::endl;
         bool inList = false;
         for (int comp = 0; comp < connectedComponentsList.size(); comp++) {
             if (label == connectedComponentsList[comp]->label)
