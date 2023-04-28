@@ -31,6 +31,7 @@ void Graph::addCapacity(unsigned int numVerticies, unsigned int numEdges) {
  * @param id the index of the vertex
  */
 Vertex* Graph::addVertex(unsigned int id) {
+
     if (this->vertices[id] == nullptr) {
         this->vertices[id] = new Vertex(id);
     }
