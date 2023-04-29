@@ -9,7 +9,6 @@
  */
 
 #include <vector>
-#include <iostream>
 #include <omp.h>
 #include "../include/GraphComponents.h"
 
@@ -34,7 +33,8 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
         localNextFrontier.reserve(frontier.size());
 
         // Divide frontier exploration among threads
-        #pragma omp for
+        // #pragma clang loop unroll(full)
+        #pragma omp for schedule(dynamic)
         for (int i = 0; i < frontier.size(); i++) {
 
             // Index of the vertex frontier
@@ -43,6 +43,7 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
             std::vector<unsigned int> incidentEdges = vertices[frontierVertex]->incidentEdges;
 
             // Iterate neighbors of vertex
+            // #pragma clang loop unroll(disable)
             for (unsigned int toIdx : incidentEdges) {
                 // Check if vertex has been visited before
                 if (levels[toIdx] == -1) {
@@ -71,7 +72,7 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
             localOffset = offset;
             offset += localNextFrontier.size();
         }
-        
+
         // Wait for all threads to reach this point
         #pragma omp barrier
 
@@ -87,6 +88,7 @@ void parallelBFS(const std::vector<Vertex*>& vertices, const unsigned int src, s
         #pragma omp barrier
 
         // Each thread write their own local next frontier
+        // #pragma clang loop unroll(disable)
         for (int i = 0; i < localNextFrontier.size(); i++) {
             frontier[i + localOffset] = localNextFrontier[i];
         }

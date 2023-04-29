@@ -8,12 +8,13 @@ DATA_DIR=./data/experiment/input
 # Components
 COMPONENTS=( 1 3 6 )
 # Vertices
-VERTICES=( 1020 10200 102000 )
+# VERTICES=( 1020 10200 102000 )
+VERTICES=( 102000 )
 # Number of batches
 BATCHES=4
 
 # Max edges that can be generated from the script, 800,000,000
-capacity=800000000
+capacity=200000000
 
 # Iterate number of vertices
 for total_v in "${VERTICES[@]}"
@@ -29,22 +30,23 @@ do
         EDGES=()
 
         min=$(( v - 1 ))
-        max=$(( v * (v - 1) / 20 ))
-        max=$(( max > capacity ? capacity : max ))
+        # max=$(( v * (v - 1) / 10 ))
+        # max=$(( max > capacity ? capacity : max ))
 
         # Calculate edges for each vertex size
         # Minimum
         EDGES+=( $min )
         # Sparse
         EDGES+=( $(( v * 3 )) )
-        # Kinda sparse
         EDGES+=( $(( v * 9 )) )
-        # Kinda sparse
+        # Medium
         EDGES+=( $(( v * 27 )) )
-        # Kinda sparse
         EDGES+=( $(( v * 81 )) )
         # Dense
-        EDGES+=( $max )
+        EDGES+=( $(( v * 243 )) )
+        EDGES+=( $(( v * 729 )) )
+        # Dense
+        # EDGES+=( $max )
 
         # Iterate edges
         for e in "${EDGES[@]}"

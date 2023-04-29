@@ -82,23 +82,10 @@ function benchmark() {
                 done
             done
 
-            # # Iterate seeds
-            # seed_files=( $read_dir/* )
-            # for data in "${seed_files[@]}"
-            # do
-            #     echo "Running $1 k=$2 on $data"
-            #     result=$(./bin/"$1" "$2" < $data 2>&1 > /dev/null)
-            #     result=( $result )
-
-            #     echo -n ",${result[3]}" >> $write_file_rt
-            #     echo -n ",${result[5]}" >> $write_file_cmp
-            # done
         done
     done
-
-    echo
 }
 
 # Parallel bfs
-echo "Benchmarking Parallel BFS"
-benchmark bfs-p
+echo "Benchmarking Parallel LP"
+benchmark lp
