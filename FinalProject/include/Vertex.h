@@ -21,8 +21,6 @@ public:
     unsigned int id;
     // List of incident edges which are indices to the vertex
     std::vector<unsigned int> incidentEdges;
-    // The Vertex's lablel
-    int label;
 
     /**
      * @brief Construct a new Vertex object with the given data.

@@ -16,7 +16,6 @@
  */
 Vertex::Vertex(unsigned int id) {
     this->id = id;
-    this->label = id + 1;
 }
 
 /**

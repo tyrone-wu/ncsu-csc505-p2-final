@@ -15,9 +15,9 @@ HEADERS=$(INC_DIR)/Edge.h $(INC_DIR)/Vertex.h $(INC_DIR)/Edge.h $(INC_DIR)/Graph
 COMPILE=$(CPP) $(CPPFLAGS)
 
 # Build executable
-bfs-s: $(DEP) BFSSequential.o
-	@mkdir -p $(BIN_DIR)
-	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/BFSSequential.o -o $(BIN_DIR)/bfs-s
+# bfs-s: $(DEP) BFSSequential.o
+# 	@mkdir -p $(BIN_DIR)
+# 	$(COMPILE) $(DEP_ACT) $(BLD_DIR)/BFSSequential.o -o $(BIN_DIR)/bfs-s
 
 bfs-p: $(DEP) BFSParallel.o
 	@mkdir -p $(BIN_DIR)
@@ -53,10 +53,10 @@ gen-test:
 	@chmod +x ./scripts/generate_test.sh
 	./scripts/generate_test.sh
 
-test-bfs-s:
-	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
-	@chmod +x ./scripts/test_cc.sh
-	./scripts/test_cc.sh bfs-s
+# test-bfs-s:
+# 	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
+# 	@chmod +x ./scripts/test_cc.sh
+# 	./scripts/test_cc.sh bfs-s
 
 test-bfs-p:
 	@sed -i -e 's/\r$$//' ./scripts/test_cc.sh
