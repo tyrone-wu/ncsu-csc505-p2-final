@@ -87,5 +87,11 @@ function benchmark() {
 }
 
 # Parallel bfs
+echo "Benchmarking Parallel BFS"
+benchmark bfs-p
+
+echo
+
+# Parallel lp
 echo "Benchmarking Parallel LP"
 benchmark lp

@@ -13,7 +13,7 @@ VERTICES=( 102000 )
 # Number of batches
 BATCHES=4
 
-# Max edges that can be generated from the script, 800,000,000
+# Max edges that can be generated from the script
 capacity=200000000
 
 # Iterate number of vertices

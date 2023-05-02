@@ -14,7 +14,7 @@ function error_exit() {
     echo "  directory     The directory of where the .gph files are located."
     echo "  threads       Number of threads to utilize"
     echo 
-    echo "example: ./run_cc.sh ./data/test/t1/input/ "
+    echo "example: ./run_cc.sh bfs-p ./data/test/t1/input/ 2"
     exit 1
 }
 
